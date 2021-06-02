@@ -1,0 +1,22 @@
+-- self explanative
+--vim.cmd([[
+--fun! CleanExtraSpaces()
+--    let save_cursor = getpos(".")
+--    let old_query = getreg('/')
+--    silent! %s/\s\+$//e
+--    call setpos('.', save_cursor)
+--    call setreg('/', old_query)
+--endfun
+--
+--if has("autocmd")
+--    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+--endif
+--]])
+-- vim.cmd([[
+--   augroup cmake
+--       autocmd!
+--       autocmd BufEnter CmakeLists.txt set ft=cmake
+--   augroup END
+-- au BufNewFile,BufRead *.jinja set syntax=htmljinja
+-- au BufNewFile,BufRead *.mako set ft=mako
+-- ]])
