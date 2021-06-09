@@ -119,10 +119,10 @@ nvim_create_augroups(autocmds)
 
 -- Colorscheme
 vim.cmd([[
-	syntax enable
-	colorscheme gruvbox 
-	set background=dark
-	hi! Normal ctermbg=None guibg=None
+        syntax enable
+        colorscheme gruvbox 
+        set background=dark
+        hi! Normal ctermbg=None guibg=None
 ]])
 
 require('extras')
