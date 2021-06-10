@@ -1,0 +1,8 @@
+require('mappings/plugins/barbar')
+require('mappings/plugins/lspsaga')
+require('mappings/plugins/compe')
+require('mappings/plugins/ultisnips')
+require('mappings/plugins/nvim-tree')
+require('mappings/plugins/telescope')
+require('mappings/plugins/git')
+require('mappings/plugins/trouble')
