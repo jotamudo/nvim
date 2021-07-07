@@ -46,7 +46,7 @@ packer.startup(
     use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}}
 
     -- Playing with registers
-    use "gennaro-tedesco/nvim-peekup"
+    -- use "gennaro-tedesco/nvim-peekup"
 
     -- Markdown
     use "davidgranstrom/nvim-markdown-preview"
@@ -61,7 +61,7 @@ packer.startup(
     use {"KeitaNakamura/tex-conceal.vim", ft = "tex"}
 
     -- Notes with neuron
-    use "oberblastmeister/neuron.nvim"
+    -- use "oberblastmeister/neuron.nvim"
 
     -- Colorscheme
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
@@ -70,9 +70,9 @@ packer.startup(
     use "mfussenegger/nvim-dap"
 
     -- Lua
-    use "bfredl/nvim-luadev"
-    use "tjdevries/vlog.nvim"
-    use "tjdevries/manillua.nvim"
+    -- use "bfredl/nvim-luadev"
+    -- use "tjdevries/vlog.nvim"
+    -- use "tjdevries/manillua.nvim"
     -- lua scratchpads
     use "rafcamlet/nvim-luapad"
 
@@ -135,10 +135,10 @@ packer.startup(
     use "tpope/vim-surround"
 
     -- Collaborative editing
-    use "jbyuki/instant.nvim"
+    -- use "jbyuki/instant.nvim"
 
     -- Playing with motion
-    use "tjdevries/train.nvim"
+    -- use "tjdevries/train.nvim"
 
     -- Github Issues and PRs
     use "pwntester/octo.nvim"
@@ -176,7 +176,7 @@ packer.startup(
     }
 
     -- ASCII diagrams
-    use "jbyuki/venn.nvim"
+    -- use "jbyuki/venn.nvim"
 
     -- Life management
     use "itchyny/calendar.vim" --scheduling

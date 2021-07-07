@@ -46,7 +46,7 @@ local function save_profiles(threshold)
   _G._packer.profile_output = results
 end
 
-time("Luarocks path setup", true)
+time([[Luarocks path setup]], true)
 local package_path_str = "/home/j_mudo/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?.lua;/home/j_mudo/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?/init.lua;/home/j_mudo/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?.lua;/home/j_mudo/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?/init.lua"
 local install_cpath_pattern = "/home/j_mudo/.cache/nvim/packer_hererocks/2.0.5/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
@@ -57,19 +57,20 @@ if not string.find(package.cpath, install_cpath_pattern, 1, true) then
   package.cpath = package.cpath .. ';' .. install_cpath_pattern
 end
 
-time("Luarocks path setup", false)
-time("try_loadstring definition", true)
+time([[Luarocks path setup]], false)
+time([[try_loadstring definition]], true)
 local function try_loadstring(s, component, name)
   local success, result = pcall(loadstring(s))
   if not success then
-    print('Error running ' .. component .. ' for ' .. name)
-    error(result)
+    vim.schedule(function()
+      vim.api.nvim_notify('packer.nvim: Error running ' .. component .. ' for ' .. name .. ': ' .. result, vim.log.levels.ERROR, {})
+    end)
   end
   return result
 end
 
-time("try_loadstring definition", false)
-time("Defining packer_plugins", true)
+time([[try_loadstring definition]], false)
+time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
   ["astronauta.nvim"] = {
     loaded = true,
@@ -116,10 +117,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/gruvbox.nvim"
   },
-  ["instant.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/instant.nvim"
-  },
   ["lexima.vim"] = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/lexima.vim"
@@ -148,17 +145,9 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/lush.nvim"
   },
-  ["manillua.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/manillua.nvim"
-  },
   neogit = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/neogit"
-  },
-  ["neuron.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/neuron.nvim"
   },
   ["nvim-colorizer.lua"] = {
     config = { "\27LJ\1\0027\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\14colorizer\frequire\0" },
@@ -193,10 +182,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/nvim-lsputils"
   },
-  ["nvim-luadev"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/nvim-luadev"
-  },
   ["nvim-luapad"] = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/nvim-luapad"
@@ -204,10 +189,6 @@ _G.packer_plugins = {
   ["nvim-markdown-preview"] = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/nvim-markdown-preview"
-  },
-  ["nvim-peekup"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/nvim-peekup"
   },
   ["nvim-tree.lua"] = {
     loaded = true,
@@ -268,10 +249,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/todo-comments.nvim"
   },
-  ["train.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/train.nvim"
-  },
   ["trouble.nvim"] = {
     config = { "\27LJ\1\0029\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\ftrouble\frequire\0" },
     loaded = true,
@@ -280,10 +257,6 @@ _G.packer_plugins = {
   ultisnips = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/ultisnips"
-  },
-  ["venn.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/venn.nvim"
   },
   ["vim-commentary"] = {
     loaded = true,
@@ -344,36 +317,32 @@ _G.packer_plugins = {
   ["virtual-types.nvim"] = {
     loaded = true,
     path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/virtual-types.nvim"
-  },
-  ["vlog.nvim"] = {
-    loaded = true,
-    path = "/home/j_mudo/.local/share/nvim/site/pack/packer/start/vlog.nvim"
   }
 }
 
-time("Defining packer_plugins", false)
+time([[Defining packer_plugins]], false)
 -- Config for: galaxyline.nvim
-time("Config for galaxyline.nvim", true)
+time([[Config for galaxyline.nvim]], true)
 try_loadstring("\27LJ\1\2*\0\0\2\0\2\0\0044\0\0\0%\1\1\0>\0\2\1G\0\1\0\15statusline\frequire\0", "config", "galaxyline.nvim")
-time("Config for galaxyline.nvim", false)
+time([[Config for galaxyline.nvim]], false)
 -- Config for: trouble.nvim
-time("Config for trouble.nvim", true)
+time([[Config for trouble.nvim]], true)
 try_loadstring("\27LJ\1\0029\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
-time("Config for trouble.nvim", false)
+time([[Config for trouble.nvim]], false)
 -- Config for: todo-comments.nvim
-time("Config for todo-comments.nvim", true)
+time([[Config for todo-comments.nvim]], true)
 try_loadstring("\27LJ\1\2?\0\0\2\0\3\0\a4\0\0\0%\1\1\0>\0\2\0027\0\2\0002\1\0\0>\0\2\1G\0\1\0\nsetup\18todo-comments\frequire\0", "config", "todo-comments.nvim")
-time("Config for todo-comments.nvim", false)
+time([[Config for todo-comments.nvim]], false)
 -- Config for: nvim-colorizer.lua
-time("Config for nvim-colorizer.lua", true)
+time([[Config for nvim-colorizer.lua]], true)
 try_loadstring("\27LJ\1\0027\0\0\2\0\3\0\0064\0\0\0%\1\1\0>\0\2\0027\0\2\0>\0\1\1G\0\1\0\nsetup\14colorizer\frequire\0", "config", "nvim-colorizer.lua")
-time("Config for nvim-colorizer.lua", false)
+time([[Config for nvim-colorizer.lua]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Filetype lazy-loads
-time("Defining lazy-load filetype autocommands", true)
+time([[Defining lazy-load filetype autocommands]], true)
 vim.cmd [[au FileType tex ++once lua require("packer.load")({'tex-conceal.vim'}, { ft = "tex" }, _G.packer_plugins)]]
-time("Defining lazy-load filetype autocommands", false)
+time([[Defining lazy-load filetype autocommands]], false)
 vim.cmd("augroup END")
 if should_profile then save_profiles() end
 
