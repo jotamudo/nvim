@@ -110,7 +110,13 @@ packer.startup(
 
     -- Git integration
     -- test these
-    use "TimUntersberger/neogit"
+    use {
+      "TimUntersberger/neogit",
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "sindrets/diffview.nvim"
+      }
+    }
     use "f-person/git-blame.nvim"
     use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
     -- safe fallback
