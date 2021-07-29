@@ -86,6 +86,7 @@ vim.cmd([[
   set undofile
 ]])
 -- TODO: consider using the following
+-- NOTE: probably won't support windows kek
 -- if has('win32') || has ('win64')
 --     let $VIMHOME = $VIM."/vimfiles"
 -- else
