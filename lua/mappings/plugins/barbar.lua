@@ -1,4 +1,5 @@
 local utils = require('nvim_utils')
+local nnoremap = require('astronauta.keymap').nnoremap
 
 local mappings = {
     ["n<leader>b,"]    = {":BufferPrevious<CR>",         silent = true, noremap = true},
