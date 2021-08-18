@@ -52,6 +52,7 @@ local o_options = {
     clipboard = 'unnamedplus',
     formatprg = 'par\\ -rjw79',
     listchars = 'tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»',
+    hidden = true,
 }
 
 for name, value in pairs(o_options) do
