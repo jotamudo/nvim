@@ -1,5 +1,7 @@
-local util = require 'lspconfig/util'
-local lspconfig = require 'lspconfig'
+vim.schedule(function()
+require("packer").loader("coq_nvim coq.artifacts")
+local util = require('lspconfig/util')
+local lspconfig = require('lspconfig')
 --Enable (broadcasting) snippet capability for completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -60,9 +62,9 @@ lspconfig.clangd.setup{
   }
 }
 
-lspconfig.cmake.setup{ on_attach=custom_attach }
-lspconfig.bashls.setup{ on_attach=custom_attach }
-lspconfig.pyright.setup{
+lspconfig.cmake.setup(coq.lsp_ensure_capabilities({on_attach=custom_attach}))
+lspconfig.bashls.setup( coq.lsp_ensure_capabilities{on_attach=custom_attach} )
+lspconfig.pyright.setup(coq.lsp_ensure_capabilities({
     root_dir = util.root_pattern(".",".git", "setup.py",  "setup.cfg", "pyproject.toml", "requirements.txt");
     on_attach=custom_attach,
     settings = {
@@ -90,23 +92,23 @@ lspconfig.pyright.setup{
         }
       end
     };
-}
+}))
 
 
-lspconfig.texlab.setup{
+lspconfig.texlab.setup(coq.lsp_ensure_capabilities({
   on_attach=custom_attach,
   capabilities = capabilities,
-}
+}))
 
-lspconfig.jsonls.setup{
+lspconfig.jsonls.setup(coq.lsp_ensure_capabilities({
     on_attach=custom_attach,
     capabilities = capabilities
-}
+}))
 
-lspconfig.vimls.setup{
+lspconfig.vimls.setup(coq.lsp_ensure_capabilities({
   on_attach=custom_attach,
   capabilities = capabilities,
-}
+}))
 
 -- lua things after removal of LspInstall
 
@@ -160,19 +162,19 @@ local luadev = require('lua-dev').setup({
   }
 })
 
-lspconfig.sumneko_lua.setup(luadev)
+lspconfig.sumneko_lua.setup(coq.lsp_ensure_capabilities(luadev))
 
 -- Web
-lspconfig.html.setup{
-    on_attach=custom_attach,
-    capabilities = capabilities
-}
-lspconfig.tsserver.setup{
-    on_attach=custom_attach,
-}
-lspconfig.cssls.setup{
-    on_attach=custom_attach,
-}
+lspconfig.html.setup( coq.lsp_ensure_capabilities( {
+  on_attach=custom_attach,
+  capabilities = capabilities
+} ) )
+lspconfig.tsserver.setup( coq.lsp_ensure_capabilities( {
+  on_attach=custom_attach,
+} ) )
+lspconfig.cssls.setup(coq.lsp_ensure_capabilities({
+  on_attach=custom_attach,
+}))
 
 -- diagnostics (?)
 --lspconfig.diagnosticls.setup{
@@ -318,14 +320,14 @@ lspconfig.cssls.setup{
 --    },
 --}
 
-lspconfig.rust_analyzer.setup {
+lspconfig.rust_analyzer.setup ( coq.lsp_ensure_capabilities({
   capabilities = capabilities,
   completion = {
     autoimport = {
       enable = true
     },
   },
-}
+}) )
 
 -- EXPERIMENTAL
 
@@ -369,4 +371,13 @@ lspconfig.rust_analyzer.setup {
       --}
     --},
 --}
-
+vim.g.coq_settings = {
+  autostart = true,
+  keymap = {
+    jump_to_mark = '<Tab>'
+  }
+}
+vim.cmd([[
+  let g:coq_settings = { 'keymap.jump_to_mark': '<c-j>' }
+]])
+end)

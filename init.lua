@@ -132,6 +132,6 @@ vim.cmd([[
 
 require('extras')
 require('plugins')
+require('lsp')
 require('mappings')
 require('statusline')
-require('lsp')

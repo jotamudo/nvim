@@ -16,6 +16,11 @@ packer.startup(
     use "neovim/nvim-lspconfig"
     use "anott03/nvim-lspinstall"
     use "hrsh7th/nvim-compe"
+
+    -- testing coq
+    use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+    use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
+
     use "nvim-lua/lsp-status.nvim"
     use "glepnir/lspsaga.nvim"
     use {"RishabhRD/nvim-lsputils", requires = "RishabhRD/popfix"}
