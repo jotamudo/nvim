@@ -372,12 +372,12 @@ lspconfig.rust_analyzer.setup ( coq.lsp_ensure_capabilities({
     --},
 --}
 vim.g.coq_settings = {
-  autostart = true,
-  keymap = {
-    jump_to_mark = '<Tab>'
+  auto_start = true,
+  keymap= {
+    jump_to_mark = '<S-Tab>'
   }
 }
-vim.cmd([[
-  let g:coq_settings = { 'keymap.jump_to_mark': '<c-j>' }
-]])
+-- vim.cmd([[
+--   let g:coq_settings = { 'keymap.jump_to_mark': '<c-j>' }
+-- ]])
 end)
