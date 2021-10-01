@@ -43,18 +43,20 @@ packer.startup(
     use "nvim-treesitter/nvim-treesitter-textobjects"
 
     -- Fuzzy Finder
-    use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}}
+    use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"}, 
+    -- {"nvim-lua/plenary.nvim"}
+  }}
 
     -- Playing with registers
     -- use "gennaro-tedesco/nvim-peekup"
 
     -- Markdown
-    use "davidgranstrom/nvim-markdown-preview"
+    -- use "davidgranstrom/nvim-markdown-preview"
+    use {'iamcco/markdown-preview.nvim', run={'cd app && yarn install'}}
     use "gabrielelana/vim-markdown"
     use "vim-pandoc/vim-pandoc"
     use "vim-pandoc/vim-pandoc-syntax"
-    use {"shime/vim-livedown", run = {"npm install -g livedonw"}}
-    -- use {'iamcco/markdown-preview.nvim', run={'cd app && yarn install'}}
+    -- use {"shime/vim-livedown", run = {"npm install -g livedonw"}}
 
     -- Latex
     use "lervag/vimtex"
@@ -68,6 +70,9 @@ packer.startup(
 
     -- Debugging :TODO: consider vimspector
     use "mfussenegger/nvim-dap"
+    use "rcarriga/nvim-dap-ui"
+    use "mfussenegger/nvim-dap-python"
+    use "szw/vim-maximizer" -- Maximizing windows
 
     -- Lua
     -- use "bfredl/nvim-luadev"
@@ -108,17 +113,20 @@ packer.startup(
       end
     }
 
+    use {'nvim-lua/plenary.nvim', commit = 'f1c783e133fcae77fd1a71fa9df95f991e2fa97a'}
+
     -- Git integration
     -- test these
     use {
       "TimUntersberger/neogit",
       requires = {
-        "nvim-lua/plenary.nvim",
+        --"nvim-lua/plenary.nvim",
         "sindrets/diffview.nvim"
-      }
+      },
+      commit = '53772efc42263989d18d4a86c350b8b0e1f1b71b'
     }
     use "f-person/git-blame.nvim"
-    use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
+    -- use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
     -- safe fallback
     -- use 'airblade/vim-gitgutter'
     -- use 'tpope/vim-fugitive'
@@ -167,7 +175,7 @@ packer.startup(
     -- TODO and such for exploring
     use {
       "folke/todo-comments.nvim",
-      requires = "nvim-lua/plenary.nvim",
+      -- requires = "nvim-lua/plenary.nvim",
       config = function()
         require("todo-comments").setup {}
       end
