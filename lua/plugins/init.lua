@@ -10,5 +10,6 @@ require('plugins/git-blame')
 require('plugins/neogit')
 require('plugins/latex')
 require('plugins/formatter')
+require('plugins/dap')
 -- files that have nothing for now
 require('plugins/nvim-tree')
