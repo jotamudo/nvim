@@ -162,6 +162,14 @@ local luadev = require('lua-dev').setup({
 
 lspconfig.sumneko_lua.setup(luadev)
 
+-- C#
+local pid = vim.fn.getpid()
+local omnisharp_bin = '/usr/bin/omnisharp'
+
+lspconfig.omnisharp.setup{
+  cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)}
+}
+
 -- Web
 lspconfig.html.setup{
     on_attach=custom_attach,
@@ -173,150 +181,6 @@ lspconfig.tsserver.setup{
 lspconfig.cssls.setup{
     on_attach=custom_attach,
 }
-
--- diagnostics (?)
---lspconfig.diagnosticls.setup{
-    --filetypes = { "c", "sh" }
---}
-
---lspconfig.diagnosticls.setup {
---    on_attach=custom_attach,
---    update_on_insert = true,
---    filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'css', 'scss', 'markdown', 'pandoc' },
---    init_options = {
---        linters = {
---            flake8 = {
---                debounce = 100,
---                sourceName = "flake8",
---                command = "flake8",
---                args = {
---                  "--format",
---                  "%(row)d:%(col)d:%(code)s:%(code)s: %(text)s",
---                  "%file"
---                },
---                formatPattern = {
---                  "^(\\d+):(\\d+):(\\w+):(\\w).+: (.*)$",
---                  {
---                    line = 1,
---                    column = 2,
---                    message = {"[", 3, "] ", 5},
---                    security = 4
---                  }
---                },
---                securities = {
---                    E = "error",
---                    W = "warning",
---                    F = "info",
---                    B = "hint",
---                },
---            },
---            pylint = {
---                sourceName = "pylint",
---                command = "pylint",
---                args ={
---                    "--output-format",
---                    "text",
---                    "--score",
---                    "no",
---                    "--msg-template",
---                    "'{line}:{column}:{category}:{msg} ({msg_id}:{symbol})'",
---                    "%file"
---                },
---                formatPattern = {
---                    "^(\\d+?):(\\d+?):([a-z]+?):(.*)$",
---                    {
---                        line = 1,
---                        column = 2,
---                        security = 3,
---                        message = 4
---                    }
---                },
---                rootPatterns = {".git", "pyproject.toml", "setup.py"},
---                securities = {
---                    informational = "hint",
---                    refactor = "info",
---                    convention = "info",
---                    warning = "warning",
---                    error = "error",
---                    fatal = "error"
---                },
---                offsetColumn = 1,
---                formatLines = 1
---            },
---            eslint = {
---                command = 'eslint',
---                rootPatterns = { '.git' },
---                debounce = 100,
---                args = { '--stdin', '--stdin-filename', '%filepath', '--format', 'json' },
---                sourceName = 'eslint',
---                parseJson = {
---                    errorsRoot = '[0].messages',
---                    line = 'line',
---                    column = 'column',
---                    endLine = 'endLine',
---                    endColumn = 'endColumn',
---                    message = '[eslint] ${message} [${ruleId}]',
---                    security = 'severity'
---                },
---                securities = {
---                    [2] = 'error',
---                    [1] = 'warning'
---                }
---            },
---            markdownlint = {
---                command = 'markdownlint',
---                rootPatterns = { '.git' },
---                isStderr = true,
---                debounce = 100,
---                args = { '--stdin' },
---                offsetLine = 0,
---                offsetColumn = 0,
---                sourceName = 'markdownlint',
---                securities = {
---                    undefined = 'hint'
---                },
---                formatLines = 1,
---                formatPattern = {
---                    '^.*:(\\d+)\\s+(.*)$',
---                    {
---                        line = 1,
---                        column = -1,
---                        message = 2,
---                    }
---                }
---            },
---        },
---        filetypes = {
---            --python = 'pylint',
---            javascript = 'eslint',
---            javascriptreact = 'eslint',
---            typescript = 'eslint',
---            typescriptreact = 'eslint',
---            markdown = 'markdownlint',
---            pandoc = 'markdownlint'
---        },
---        formatters = {
---            prettierEslint = {
---                command = 'prettier-eslint',
---                args = { '--stdin' },
---                rootPatterns = { '.git' },
---            },
---            prettier = {
---                command = 'prettier',
---                args = { '--stdin-filepath', '%filename' }
---            }
---        },
---        formatFiletypes = {
---            css = 'prettier',
---            javascript = 'prettierEslint',
---            javascriptreact = 'prettierEslint',
---            json = 'prettier',
---            scss = 'prettier',
---            typescript = 'prettierEslint',
---            typescriptreact = 'prettierEslint'
---        }
---    },
---}
 
 lspconfig.rust_analyzer.setup {
   capabilities = capabilities,

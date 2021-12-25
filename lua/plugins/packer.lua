@@ -17,7 +17,7 @@ packer.startup(
     use "anott03/nvim-lspinstall"
     use "hrsh7th/nvim-compe"
     use "nvim-lua/lsp-status.nvim"
-    use "glepnir/lspsaga.nvim"
+    use "tami5/lspsaga.nvim"
     use {"RishabhRD/nvim-lsputils", requires = "RishabhRD/popfix"}
     -- eye candy :3
     -- use 'kosayoda/nvim-lightbulb'
@@ -84,19 +84,19 @@ packer.startup(
     -- Buffer Line
     use "romgrk/barbar.nvim"
 
-    -- Status Line
+    -- TODO: Status Line
     -- lualine is easier to configure than galaxy-line, but the rice...
     -- use 'hoob3rt/lualine.nvim'
-    use {
-      "glepnir/galaxyline.nvim",
-      branch = "main",
-      -- your statusline
-      config = function()
-        require "statusline"
-      end,
-      -- some optional icons
-      requires = {"kyazdani42/nvim-web-devicons", opt = true}
-    }
+    -- use {
+    --   "glepnir/galaxyline.nvim",
+    --   branch = "main",
+    --   -- your statusline
+    --   config = function()
+    --     require "statusline"
+    --   end,
+    --   -- some optional icons
+    --   requires = {"kyazdani42/nvim-web-devicons", opt = true}
+    -- }
     -- just in case
     use "ryanoasis/vim-devicons"
 
@@ -195,5 +195,6 @@ packer.startup(
     -- Life management
     use "itchyny/calendar.vim" --scheduling
     use "vimwiki/vimwiki" --notes
+
   end
 )

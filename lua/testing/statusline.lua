@@ -126,7 +126,7 @@ gls.right = {
   }, {
     DiagnosticWarn = {
       provider = function()
-        local n = vim.lsp.diagnostic.get_count(0, 'Warning')
+        local n = vim.lsp.diagnostic.get(0, 'Warning')
         if n == 0 then return '' end
         return string.format(' %s %d ', u 'f071', n)
       end,
@@ -134,7 +134,7 @@ gls.right = {
     },
     DiagnosticError = {
       provider = function()
-        local n = vim.lsp.diagnostic.get_count(0, 'Error')
+        local n = vim.lsp.diagnostic.get(0, 'Error')
         if n == 0 then return '' end
         return string.format(' %s %d ', u 'e009', n)
       end,

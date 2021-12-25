@@ -1,1 +1,1 @@
-require('statusline/status')
+-- require('statusline/status')
