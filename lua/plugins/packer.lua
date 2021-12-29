@@ -15,16 +15,22 @@ packer.startup(
     -- Lsp and autocompletion stuff
     use "neovim/nvim-lspconfig"
     use "anott03/nvim-lspinstall"
-    use "hrsh7th/nvim-compe"
     use "nvim-lua/lsp-status.nvim"
     use "tami5/lspsaga.nvim"
     use {"RishabhRD/nvim-lsputils", requires = "RishabhRD/popfix"}
-    -- eye candy :3
-    -- use 'kosayoda/nvim-lightbulb'
     use "onsails/lspkind-nvim"
     use "jubnzv/virtual-types.nvim"
     -- signature hint when typing
     use "ray-x/lsp_signature.nvim"
+    -- autocompletion
+    use "hrsh7th/nvim-cmp"
+    use 'hrsh7th/cmp-nvim-lsp'
+    use 'hrsh7th/cmp-buffer'
+    use 'hrsh7th/cmp-path'
+    use 'hrsh7th/cmp-cmdline'
+    use 'hrsh7th/cmp-vsnip'
+    use 'quangnguyen30192/cmp-nvim-ultisnips'
+
 
     -- Lua helpers
     use "folke/lua-dev.nvim"
@@ -85,18 +91,8 @@ packer.startup(
     use "romgrk/barbar.nvim"
 
     -- TODO: Status Line
-    -- lualine is easier to configure than galaxy-line, but the rice...
-    -- use 'hoob3rt/lualine.nvim'
-    -- use {
-    --   "glepnir/galaxyline.nvim",
-    --   branch = "main",
-    --   -- your statusline
-    --   config = function()
-    --     require "statusline"
-    --   end,
-    --   -- some optional icons
-    --   requires = {"kyazdani42/nvim-web-devicons", opt = true}
-    -- }
+    use "SmiteshP/nvim-gps"
+    use "feline-nvim/feline.nvim"
     -- just in case
     use "ryanoasis/vim-devicons"
 
@@ -139,7 +135,9 @@ packer.startup(
     -- Comments
     -- TODO: Choose AAAAAAAAAAAAAAAAAAAA
     -- use 'b3nj5m1n/kommentary'
-    use "tpope/vim-commentary"
+    -- use "tpope/vim-commentary"
+    use 'numToStr/Comment.nvim'
+
     -- use 'gennaro-tedesco/nvim-commaround'
 
     -- Dot repeater
@@ -158,7 +156,8 @@ packer.startup(
     use "pwntester/octo.nvim"
 
     -- Auto Pairs
-    use "cohama/lexima.vim"
+    -- use "cohama/lexima.vim"
+    use "windwp/nvim-autopairs"
     use "andymass/vim-matchup"
 
     -- Scratchpads

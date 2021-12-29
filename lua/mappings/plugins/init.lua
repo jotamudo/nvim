@@ -1,6 +1,6 @@
 require('mappings/plugins/barbar')
 require('mappings/plugins/lspsaga')
-require('mappings/plugins/compe')
+require('mappings/plugins/cmp')
 require('mappings/plugins/ultisnips')
 require('mappings/plugins/nvim-tree')
 require('mappings/plugins/telescope')
