@@ -3,4 +3,5 @@ plugged_b
 UltiSnips
 undodir
 doc
-
+packer_compiled*
+plugin/
