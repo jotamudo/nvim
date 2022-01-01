@@ -13,7 +13,8 @@ if fn.empty(fn.glob(install_path)) > 0 then
 end
 
 -- Ensuring Packer will get acess to the plugin list
-require('plugins/packer')
+require('packer')
+require('impatient').enable_profile()
 
 require('nvim_utils')
 -- Think about using lbr (:h lbr)

@@ -1,9 +1,12 @@
 local packer = require("packer")
 
-packer.startup(
+packer.startup{
   function(use)
     -- Packer can manage itself as an optional plugin
     use {"wbthomason/packer.nvim", opt = true}
+
+    -- Improve startup time
+    use 'lewis6991/impatient.nvim'
     -- Utils for configs
     use "norcalli/nvim_utils"
     -- And quality of life inprovements :) 👌
@@ -196,4 +199,9 @@ packer.startup(
     use "vimwiki/vimwiki" --notes
 
   end
-)
+,
+config = {
+    -- Move to lua dir so impatient.nvim can cache it
+    compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua'
+  }
+}
