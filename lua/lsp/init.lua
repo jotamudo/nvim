@@ -1,12 +1,18 @@
-local util = require 'lspconfig/util'
-local lspconfig = require 'lspconfig'
+local lspconfig = require('lspconfig')
+local configs = require('lspconfig.configs')
+local util = require('lspconfig.util')
+local env_vars = vim.fn.environ()
+
 --Enable (broadcasting) snippet capability for completion
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = { "documentation", "detail", "additionalTextEdits" },
+}
 
 -- See uses
 local custom_attach = function(client)
-  require'lsp_signature'.on_attach()
+  -- require'lsp_signature'.on_attach()
   print("Lsp ready")
 end
 
@@ -57,73 +63,84 @@ lspconfig.clangd.setup{
   init_options = {
     usePlaceholders = true,
     completeUnimported = true
+  },
+  flags = {
+    debounce_text_changes = 150,
   }
 }
 
-lspconfig.cmake.setup{ on_attach=custom_attach }
-lspconfig.bashls.setup{ on_attach=custom_attach }
-lspconfig.pyright.setup{
-    root_dir = util.root_pattern(".",".git", "setup.py",  "setup.cfg", "pyproject.toml", "requirements.txt");
-    on_attach=custom_attach,
-    settings = {
-        python = {
-            analysis = {
-                typeCheckingMode = "basic",
-                autoImportCompletions = true,
-                useLibraryCodeForTypes = true,
-            },
-            diagnosticSeverityOverrides = {
-                reportOptionalOperand = "error",
-                reportUnusedImport = "warning",
-                reportUntypedFunctionDecorator = "warning",
-                reportUntypedClassDecorator = "warning"
-                };
-
-        };
-    };
-    handlers = {
-      -- pyright ignores dynamicRegistration settings
-      ['client/registerCapability'] = function(_, _, _, _)
-        return {
-          result = nil;
-          error = nil;
-        }
-      end
-    };
+lspconfig.cmake.setup{ 
+  on_attach=custom_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
+lspconfig.bashls.setup{ 
+  on_attach=custom_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+lspconfig.pyright.setup{
+  on_attach=custom_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off"
+      }
+    }
+  }
+}
+
+-- lspconfig.jedi_language_server.setup{
+--     on_attach=custom_attach,
+--     flags = {
+--       debounce_text_changes = 150,
+--     },
+-- }
+
+-- way too slow
+-- lspconfig.pylsp.setup{
+--   on_attach = custom_attach,
+--   flags = {
+--     debounce_text_changes = 150
+--   }
+-- }
 
 
 lspconfig.texlab.setup{
   on_attach=custom_attach,
   capabilities = capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 
 lspconfig.jsonls.setup{
     on_attach=custom_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  }
+
 }
 
 lspconfig.vimls.setup{
   on_attach=custom_attach,
   capabilities = capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  }
+
 }
 
--- lua things after removal of LspInstall
-
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko")
-end
-
 -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
-local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
+local sumneko_root_path = env_vars.HOME .. "/repos/lua-language-server"
+local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
 
 local luadev = require('lua-dev').setup({
   library = {
@@ -142,6 +159,9 @@ local luadev = require('lua-dev').setup({
           version = 'LuaJIT',
           -- Setup your lua path
           path = vim.split(package.path, ';'),
+        },
+        flags = {
+          debounce_text_changes = 150,
         },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
@@ -167,19 +187,32 @@ local pid = vim.fn.getpid()
 local omnisharp_bin = '/usr/bin/omnisharp'
 
 lspconfig.omnisharp.setup{
-  cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)}
+  cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 
 -- Web
 lspconfig.html.setup{
     on_attach=custom_attach,
-    capabilities = capabilities
+    capabilities = capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  }
+
 }
 lspconfig.tsserver.setup{
     on_attach=custom_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 lspconfig.cssls.setup{
     on_attach=custom_attach,
+  flags = {
+    debounce_text_changes = 150,
+  }
 }
 
 lspconfig.rust_analyzer.setup {
@@ -189,31 +222,69 @@ lspconfig.rust_analyzer.setup {
       enable = true
     },
   },
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+-- lspconfig.svls.setup{
+--   on_attach = custom_attach
+-- }
+
+if not configs.hdl_checker then
+  configs.hdl_checker = {
+    default_config = {
+      -- autostart = false, -- disabled auto start since I am giving rust_hdl a shot
+      cmd = {"hdl_checker", "--lsp"};
+      filetypes = { "vhdl", "verilog", "systemverilog" };
+      root_dir = function(fname)
+        return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
+        -- return util.root_pattern('.hdl_checker.config')(fname) or util.path.dirname(fname)
+      end;
+      settings = {};
+    };
+  }
+end
+
+-- lspconfig.hdl_checker.setup{
+--   on_attach = custom_attach
+-- }
+
+
+if not configs.rust_hdl then
+  configs.rust_hdl = {
+    default_config = {
+      cmd = {'/home/j_mudo/repos/rust_hdl/target/release/vhdl_ls'};
+      filetypes = { "vhdl" };
+      root_dir = function(fname)
+        return lspconfig.util.root_pattern('vhdl_ls.toml')(fname) or lspconfig.util.path.dirname(fname)
+      end;
+      settings = {};
+    };
+  }
+end
+
+-- lspconfig.rust_hdl.setup{
+--   on_attach = custom_attach
+-- }
+
+if not configs.svlangserver then
+    configs.svlangserver = {
+      default_config = {
+        cmd = {'svlangserver'},
+        filetypes = {'verilog', 'systemverilog'},
+        root_dir = function(fname)
+          return util.find_git_ancestor(fname) or util.path.dirname(fname)
+        end,
+        settings = {}
+      },
+    }
+end
+lspconfig.svlangserver.setup{
+  on_attach = custom_attach
 }
 
 -- EXPERIMENTAL
-
---local nvim_lsp = require('lspconfig')
-
---require 'pylance'
---nvim_lsp.pylance.setup{
-    --settings = {
-        --python = {
-            --analysis = {
-                --typeCheckingMode = "basic"
-            --},
-        --}
-    --},
-    --handlers = {
-      ---- pyright ignores dynamicRegistration settings
-      --['client/registerCapability'] = function(_, _, _, _)
-        --return {
-            --result = nil;
-            --error = nil;
-        --}
-      --end
-    --};
---}
 
 
 --lspconfig.ccls.setup{
