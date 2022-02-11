@@ -163,7 +163,7 @@ local comps = {
     hl = {
       fg = colors.cyan
     }
-  }
+  },
 }
 
 
