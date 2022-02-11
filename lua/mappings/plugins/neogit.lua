@@ -1,5 +1,5 @@
-local nnoremap = require('astronauta.keymap').nnoremap
+local set = vim.keymap.set
 local neogit = require('neogit')
 
-nnoremap { '<leader>gg', function () neogit.open() end }
-nnoremap { '<leader>gc', function () neogit.open({ 'commit' }) end }
+set( 'n', '<leader>gg', function() neogit.open() end)
+set( 'n', '<leader>gc', function() neogit.open({ 'commit'}) end)
