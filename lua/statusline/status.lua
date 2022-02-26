@@ -58,7 +58,8 @@ local comps = {
     provider = ' '
   },
   vi_mode = {
-    provider = '',
+    provider = ' ',
+    -- provider = ' ',
     hl = vi_hl,
     left_sep = 'left_rounded',
     right_sep = 'right_rounded',
