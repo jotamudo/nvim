@@ -54,6 +54,7 @@ local o_options = {
     formatprg = 'par\\ -rjw79',
     listchars = 'tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»',
     hidden = true,
+    guifont = 'Iosevka Nerd Font Mono:h14',
 }
 
 for name, value in pairs(o_options) do
@@ -130,6 +131,9 @@ vim.cmd([[
         set background=dark
         hi! Normal ctermbg=None guibg=None
 ]])
+
+-- ftplugin for zk
+vim.cmd('filetype plugin on')
 
 require('extras')
 require('plugins')
