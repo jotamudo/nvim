@@ -30,9 +30,12 @@ packer.startup{
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
-    use 'hrsh7th/cmp-vsnip'
     use 'hrsh7th/cmp-emoji'
-    use 'quangnguyen30192/cmp-nvim-ultisnips'
+    -- use 'quangnguyen30192/cmp-nvim-ultisnips'
+
+    -- language specific plugins
+    use 'p00f/clangd_extensions.nvim'
+    use 'simrat39/rust-tools.nvim'
 
     -- spell checking
     use {
@@ -52,7 +55,8 @@ packer.startup{
     -- Extra snippets for vsnip
     -- use "rafamadriz/friendly-snippets"
 
-    use {"SirVer/ultisnips", requires = "honza/vim-snippets"}
+    -- use {"SirVer/ultisnips", requires = "honza/vim-snippets"}
+    use { 'L3MON4D3/LuaSnip', requires = { 'rafamadriz/friendly-snippets', 'honza/vim-snippets' } }
 
     -- Treesitter
     use "nvim-treesitter/nvim-treesitter"
@@ -73,14 +77,14 @@ packer.startup{
     use "gabrielelana/vim-markdown"
     use "vim-pandoc/vim-pandoc"
     use "vim-pandoc/vim-pandoc-syntax"
-    -- use {"shime/vim-livedown", run = {"npm install -g livedonw"}}
+    -- use {"shime/vim-livedown", run = {"npm install -g livedown"}}
 
     -- Latex
     use "lervag/vimtex"
     use {"KeitaNakamura/tex-conceal.vim", ft = "tex"}
 
     -- Notes with neuron
-    -- use "oberblastmeister/neuron.nvim"
+    use {"oberblastmeister/neuron.nvim", requires = "nvim-lua/popup.nvim"}
 
     -- Colorscheme
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
@@ -210,10 +214,31 @@ packer.startup{
     -- use "jbyuki/venn.nvim"
 
     -- Life management
-    use "itchyny/calendar.vim" --scheduling
-    use "vimwiki/vimwiki" -- zettelkasten
+    -- use "vimwiki/vimwiki" -- zettelkasten
     use "mickael-menu/zk-nvim" -- zettelkasten
+    use "dkarter/bullets.vim" -- markdown goodies
+    use {
+      "brymer-meneses/grammar-guard.nvim",
+      requires = {
+      "neovim/nvim-lspconfig",
+      "williamboman/nvim-lsp-installer"
+      }
+    }
     use "jbyuki/nabla.nvim" -- view equations
+    use 'ekickx/clipboard-image.nvim'
+      -- Telekasten
+    -- use "itchyny/calendar.vim" --scheduling
+    use "renerocksai/calendar-vim" -- fork with fixed week calculations
+    use "nvim-telescope/telescope-media-files.nvim"
+    use "nvim-telescope/telescope-symbols.nvim"
+    use "mzlogin/vim-markdown-toc"
+    use {
+      "renerocksai/telekasten.nvim",
+      requires = {
+        "nvim-telescope/telescope.nvim",
+        -- "nvim-lua/plenary.nvim"
+      },
+    }
       -- org-mode
     --use "nvim-orgmode/orgmode"
     --use "akinsho/org-bullets.nvim"
@@ -224,6 +249,28 @@ packer.startup{
 
     --notifications
     use "rcarriga/nvim-notify"
+
+    -- quality of life improvements
+    use {
+      "folke/twilight.nvim",
+      config = function()
+        require("twilight").setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
+    }
+    use {
+      "folke/zen-mode.nvim",
+      config = function()
+        require("zen-mode").setup {
+          -- your configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        }
+      end
+    }
 
   end
 ,

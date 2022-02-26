@@ -1,0 +1,1 @@
+require('grammar-guard').init()
