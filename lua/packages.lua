@@ -13,6 +13,15 @@ packer.startup{
     -- Formatter
     use "mhartington/formatter.nvim"
 
+    -- Override default vim.ui.select
+    use {
+      "hood/popui.nvim",
+      requires= "RishabhRD/popfix",
+      config = function()
+        vim.ui.select = require"popui.ui-overrider"
+      end
+    }
+
     -- Lsp and autocompletion stuff
     use "neovim/nvim-lspconfig"
     use "anott03/nvim-lspinstall"
@@ -31,11 +40,20 @@ packer.startup{
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-emoji'
+    use 'hrsh7th/cmp-nvim-lua'
     -- use 'quangnguyen30192/cmp-nvim-ultisnips'
 
     -- language specific plugins
     use 'p00f/clangd_extensions.nvim'
     use 'simrat39/rust-tools.nvim'
+
+    -- code refactoring
+    use {
+      "ThePrimeagen/refactoring.nvim", requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter"
+      }
+    }
 
     -- spell checking
     use {
@@ -64,9 +82,10 @@ packer.startup{
     use "nvim-treesitter/nvim-treesitter-textobjects"
 
     -- Fuzzy Finder
-    use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"}, 
+    use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"},
     -- {"nvim-lua/plenary.nvim"}
   }}
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
     -- Playing with registers
     -- use "gennaro-tedesco/nvim-peekup"

@@ -117,6 +117,7 @@ local opts = {
     -- these override the defaults set by rust-tools.nvim
     -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
     server = {
+        -- cmd = {"/home/j_mudo/repos/ra-multiplex/target/release/ra-multiplex-server", "&", "/home/j_mudo/repos/ra-multiplex/target/release/ra-multiplex"},
         capabilities = capabilities,
         -- standalone file support
         -- setting it to false may improve startup time
