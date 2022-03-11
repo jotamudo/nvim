@@ -1,3 +1,5 @@
+require('lsp/mappings')
+require('lsp/ui')
 local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
 local util = require('lspconfig.util')
@@ -13,40 +15,22 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 -- See uses
 local custom_attach = function(client)
   -- require'lsp_signature'.on_attach()
+  if client.resolved_capabilities.document_highlight then
+      vim.cmd [[
+        hi! LspReferenceRead cterm=bold ctermbg=red guibg=#282828
+        hi! LspReferenceText cterm=bold ctermbg=red guibg=#282828
+        hi! LspReferenceWrite cterm=bold ctermbg=red guibg=#282828
+        augroup lsp_document_highlight
+          autocmd! * <buffer>
+          autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+          autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        augroup END
+      ]]
+  end
+
   print("Lsp ready")
 end
 
--- QUALITY OF LIFE PLS
-local saga = require 'lspsaga'
-
--- add your config value here
--- default value
--- use_saga_diagnostic_sign = true
--- error_sign = '',
--- warn_sign = '',
--- hint_sign = '',
--- infor_sign = '',
--- error_header = "  Error",
--- warn_header = "  Warn",
--- hint_header = "  Hint",
--- infor_header = "  Infor",
--- max_diag_msg_width = 50,
--- code_action_icon = ' ',
--- code_action_keys = { quit = 'q',exec = '<CR>' }
--- finder_definition_icon = '  ',
--- finder_reference_icon = '  ',
--- finder_action_keys = {
---   open = 'o', vsplit = 's',split = 'i',quit = 'q'
--- },
--- definition_preview_icon = '  '
--- 1: thin border | 2: rounded border | 3: thick border
--- border_style = 1
--- rename_prompt_prefix = '➤',
--- if you don't use nvim-lspconfig you must pass your server name and
--- the related filetypes into this table
--- like server_filetype_map = {metals = {'sbt', 'scala'}}
--- server_filetype_map = {}
-saga.init_lsp_saga()
 
 require("clangd_extensions").setup {
     server = {
