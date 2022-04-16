@@ -156,12 +156,11 @@ packer.startup{
       },
     }
     use "f-person/git-blame.nvim"
+    use "samoshkin/vim-mergetool"
     -- use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
     -- safe fallback
     -- use 'airblade/vim-gitgutter'
     -- use 'tpope/vim-fugitive'
-    -- maybe using this?
-    -- use 'f-person/git-blame.nvim'
 
     -- Json cool integration
     use "gennaro-tedesco/nvim-jqx"
