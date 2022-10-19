@@ -9,7 +9,7 @@ telescope.setup{
         i = { ["<c-s-t>"] = trouble.open_with_trouble },
         n = { ["<c-s-t>"] = trouble.open_with_trouble },
       }
-    }
+    },
 }
 telescope.load_extension('fzf')
 telescope.load_extension('media_files')

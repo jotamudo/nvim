@@ -14,11 +14,9 @@ packer.startup{
     use "mhartington/formatter.nvim"
 
     -- Override default vim.ui.select
-    use {
-      "hood/popui.nvim",
-      requires= "RishabhRD/popfix",
+    use {"stevearc/dressing.nvim",
       config = function()
-        vim.ui.select = require"popui.ui-overrider"
+        require('dressing').setup()
       end
     }
 
@@ -27,7 +25,7 @@ packer.startup{
     use "anott03/nvim-lspinstall"
     use "nvim-lua/lsp-status.nvim"
     use "j-hui/fidget.nvim"
-    use "tami5/lspsaga.nvim"
+    -- use "tami5/lspsaga.nvim"
     use {"RishabhRD/nvim-lsputils", requires = "RishabhRD/popfix"}
     use "onsails/lspkind-nvim"
     use "jubnzv/virtual-types.nvim"
@@ -35,31 +33,127 @@ packer.startup{
     use "ray-x/lsp_signature.nvim"
     -- autocompletion
     use "hrsh7th/nvim-cmp"
+    --sources
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
     use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/cmp-emoji'
     use 'hrsh7th/cmp-nvim-lua'
-    -- use 'quangnguyen30192/cmp-nvim-ultisnips'
+    use 'hrsh7th/cmp-calc'
+    use 'f3fora/cmp-spell'
+    use 'dmitmel/cmp-digraphs'
+    use 'uga-rosa/cmp-dictionary'
+    use 'hrsh7th/cmp-nvim-lsp-document-symbol'
+    use 'quangnguyen30192/cmp-nvim-tags'
+    -- use 'hrsh7th/cmp-nvim-lsp-signature-help'
 
+    -- Tags
+    use {'ludovicchabant/vim-gutentags',
+      config = function()
+        vim.g.gutentags_project_root = {'vhdl_ls.toml', 'Makefile', 'Cargo.toml'}
+      end
+    }
+    -- use {
+    --   'c0r73x/neotags.lua',
+    --     config = function()
+    --     require('neotags').setup({
+    --       enable = true, -- enable neotags.lua
+    --       ctags = {
+    --           run = true, -- run ctags
+    --           directory = '~/.vim_tags', -- default directory where to store tags
+    --           verbose = false, -- verbose ctags output
+    --           binary = 'ctags', -- ctags binary
+    --           args = { -- ctags arguments
+    --               '--fields=+l',
+    --               '--c-kinds=+p',
+    --               '--c++-kinds=+p',
+    --               '--sort=no',
+    --               '-a'
+    --           },
+    --       },
+    --       ft_conv = { -- ctags filetypes to vim filetype
+    --           ['c++'] = 'cpp',
+    --           ['moonscript'] = 'moon',
+    --           ['c#'] = 'cs'
+    --       },
+    --       ft_map = { -- combine tags from multiple languages (for example header files in c/cpp)
+    --           cpp = { 'cpp', 'c' },
+    --           c = { 'c', 'cpp' }
+    --       },
+    --       hl = {
+    --           minlen = 3, -- dont include tags shorter than this
+    --           patternlength = 2048, -- max syntax length when splitting it into chunks
+    --           prefix = [[\C\<]], -- default syntax prefix
+    --           suffix = [[\>]] -- default syntax suffix
+    --       },
+    --       tools = {
+    --           find = nil, -- tool to find files (defaults to running ctags with -R)
+    --           -- find = { -- example using fd
+    --           --     binary = 'fd',
+    --           --     args = { '-t', 'f', '-H', '--full-path' },
+    --           -- },
+    --       },
+    --       ignore = { -- filetypes to ignore
+    --           'cfg',
+    --           'conf',
+    --           'help',
+    --           'mail',
+    --           'markdown',
+    --           'nerdtree',
+    --           'nofile',
+    --           'readdir',
+    --           'qf',
+    --           'text',
+    --           'plaintext'
+    --       },
+    --       notin = { -- where not to include highlights
+    --           '.*String.*',
+    --           '.*Comment.*',
+    --           'cIncluded',
+    --           'cCppOut2',
+    --           'cCppInElse2',
+    --           'cCppOutIf2',
+    --           'pythonDocTest',
+    --           'pythonDocTest2'
+    --       }
+    --     })
+    --   end
+    -- }
     -- language specific plugins
     use 'p00f/clangd_extensions.nvim'
-    use 'simrat39/rust-tools.nvim'
+    use {
+      'simrat39/rust-tools.nvim',
+      -- config = function ()
+      --   require('plugins/rust_tools')
+      -- end
+    }
 
     -- code refactoring
     use {
-      "ThePrimeagen/refactoring.nvim", requires = {
+      "ThePrimeagen/refactoring.nvim",
+      requires = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter"
-      }
+      },
+      -- config = function ()
+      --   require('plugins/refactoring')
+      -- end
+    }
+
+    -- Java support
+    use {
+      'mfussenegger/nvim-jdtls',
+      config = function ()
+        require('plugins/jdtls')
+      end
     }
 
     -- spell checking
-    use {
-      'f3fora/cmp-nuspell',
-      rocks={'lua-nuspell'}
-    }
+    --use {
+    --  'f3fora/cmp-nuspell',
+    --  rocks={'lua-nuspell'}
+    --}
 
 
 
@@ -74,17 +168,31 @@ packer.startup{
     -- use "rafamadriz/friendly-snippets"
 
     -- use {"SirVer/ultisnips", requires = "honza/vim-snippets"}
-    use { 'L3MON4D3/LuaSnip', requires = { 'rafamadriz/friendly-snippets', 'honza/vim-snippets' } }
+    use { 'L3MON4D3/LuaSnip',
+      requires = { 'rafamadriz/friendly-snippets', 'honza/vim-snippets' },
+      -- config = function ()
+      --   require('plugins/luasnip')
+      -- end
+    }
 
     -- Treesitter
-    use "nvim-treesitter/nvim-treesitter"
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      -- config = function ()
+      --   require('plugins/treesitter')
+      -- end
+    }
     -- super useful to make own targets like ip (inner paragraph)
     use "nvim-treesitter/nvim-treesitter-textobjects"
 
     -- Fuzzy Finder
-    use {"nvim-telescope/telescope.nvim", requires = {{"nvim-lua/popup.nvim"},
-    -- {"nvim-lua/plenary.nvim"}
-  }}
+    use {
+      "nvim-telescope/telescope.nvim",
+      requires = {"nvim-lua/popup.nvim", "nvim-lua/plenary.nvim" },
+      -- config = function ()
+      --   require('plugins/telescope')
+      -- end
+    }
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 
     -- Playing with registers
@@ -151,9 +259,12 @@ packer.startup{
     use {
       "TimUntersberger/neogit",
       requires = {
-        --"nvim-lua/plenary.nvim",
+        "nvim-lua/plenary.nvim",
         "sindrets/diffview.nvim"
       },
+      config = function ()
+        require('plugins/neogit')
+      end
     }
     use "f-person/git-blame.nvim"
     use "samoshkin/vim-mergetool"
@@ -191,21 +302,21 @@ packer.startup{
     use "andymass/vim-matchup"
 
     -- Scratchpads
-    use "metakirby5/codi.vim"
+    -- use "metakirby5/codi.vim"
 
     -- code runners
     use {
       "michaelb/sniprun",
       run = { 'bash install.sh' }
     }
-    use "jubnzv/mdeval.nvim"
+    -- use "jubnzv/mdeval.nvim"
     use "scott-astatine/Executer.nvim"
 
     -- Making modes
     use "Iron-E/nvim-libmodal"
 
     --web stuff
-    use "mattn/emmet-vim"
+    -- use "mattn/emmet-vim"
 
     -- Project Management, consider nvpm
     -- use 'windwp/nvim-projectconfig'
@@ -240,7 +351,11 @@ packer.startup{
       requires = {
       "neovim/nvim-lspconfig",
       "williamboman/nvim-lsp-installer"
-      }
+      },
+      -- config = function ()
+      --   require('plugins/grammar-guard')
+      -- end,
+      -- ft = {'markdown', 'neorg', 'org', 'pandoc', 'text', 'txt'}
     }
     use "jbyuki/nabla.nvim" -- view equations
     use 'ekickx/clipboard-image.nvim'
@@ -268,6 +383,14 @@ packer.startup{
     --notifications
     use "rcarriga/nvim-notify"
 
+    -- Image support
+    use {
+      'edluffy/hologram.nvim',
+      config = function ()
+        require('hologram').setup()
+      end
+    }
+
     -- quality of life improvements
     use {
       "folke/twilight.nvim",
@@ -288,7 +411,11 @@ packer.startup{
           -- refer to the configuration section below
         }
       end
+
     }
+
+    -- platformio deps
+    use "normen/vim-pio"
 
   end
 ,

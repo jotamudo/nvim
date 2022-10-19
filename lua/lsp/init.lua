@@ -6,7 +6,8 @@ local util = require('lspconfig.util')
 local env_vars = vim.fn.environ()
 
 --Enable (broadcasting) snippet capability for completion
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = { "documentation", "detail", "additionalTextEdits" },
@@ -15,7 +16,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 -- See uses
 local custom_attach = function(client)
   -- require'lsp_signature'.on_attach()
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
       vim.cmd [[
         hi! LspReferenceRead cterm=bold ctermbg=red guibg=#282828
         hi! LspReferenceText cterm=bold ctermbg=red guibg=#282828
@@ -26,6 +27,9 @@ local custom_attach = function(client)
           autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
         augroup END
       ]]
+  end
+  if client.name == "pyright" then
+    client.server_capabilities.completionProvider = false
   end
 
   print("Lsp ready")
@@ -114,7 +118,7 @@ lspconfig.grammar_guard.setup({
   settings = {
     ltex = {
       enabled = { "latex", "tex", "bib", "markdown", "pandoc", "vimwiki" },
-      language = "en",
+      language = {"en", "fr"},
       diagnosticSeverity = "information",
       setenceCacheSize = 2000,
       additionalRules = {
@@ -136,7 +140,7 @@ lspconfig.cmake.setup{
     debounce_text_changes = 150,
   }
 }
-lspconfig.bashls.setup{ 
+lspconfig.bashls.setup{
   on_attach=custom_attach,
   flags = {
     debounce_text_changes = 150,
@@ -156,6 +160,8 @@ lspconfig.pyright.setup{
     }
   }
 }
+
+lspconfig.jedi_language_server.setup{}
 
 -- lspconfig.jedi_language_server.setup{
 --     on_attach=custom_attach,
@@ -200,8 +206,6 @@ lspconfig.vimls.setup{
 }
 
 -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
-local sumneko_root_path = env_vars.HOME .. "/repos/lua-language-server"
-local sumneko_binary = sumneko_root_path.."/bin/lua-language-server"
 
 local luadev = require('lua-dev').setup({
   library = {
@@ -212,7 +216,7 @@ local luadev = require('lua-dev').setup({
       -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
   },
   lspconfig = {
-    cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
+    -- cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
     settings = {
       Lua = {
         runtime = {
@@ -221,23 +225,22 @@ local luadev = require('lua-dev').setup({
           -- Setup your lua path
           path = vim.split(package.path, ';'),
         },
-        flags = {
-          debounce_text_changes = 150,
-        },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
           globals = {'vim'},
         },
         workspace = {
           -- Make the server aware of Neovim runtime files
-          library = {
-            [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-            [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-          },
+          library = vim.api.nvim_get_runtime_file("", true)
         },
+        -- disable telemetry
+        telemetry = {
+          enable = false
+        }
       },
     },
-    on_attach = custom_attach
+    on_attach = custom_attach,
+    capabilities = capabilities
   }
 })
 
@@ -292,58 +295,73 @@ lspconfig.cssls.setup{
 --   on_attach = custom_attach
 -- }
 
-if not configs.hdl_checker then
-  configs.hdl_checker = {
-    default_config = {
-      -- autostart = false, -- disabled auto start since I am giving rust_hdl a shot
-      cmd = {"hdl_checker", "--lsp"};
-      filetypes = { "vhdl", "verilog", "systemverilog" };
-      root_dir = function(fname)
-        return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
-        -- return util.root_pattern('.hdl_checker.config')(fname) or util.path.dirname(fname)
-      end;
-      settings = {};
-    };
-  }
-end
+-- if not configs.hdl_checker then
+--   configs.hdl_checker = {
+--     default_config = {
+--       -- autostart = false, -- disabled auto start since I am giving rust_hdl a shot
+--       cmd = {"hdl_checker", "--lsp"};
+--       filetypes = { "vhdl", "verilog", "systemverilog" };
+--       root_dir = function(fname)
+--         return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
+--         -- return util.root_pattern('.hdl_checker.config')(fname) or util.path.dirname(fname)
+--       end;
+--       settings = {};
+--     };
+--   }
+-- end
 
 -- lspconfig.hdl_checker.setup{
 --   on_attach = custom_attach
 -- }
 
 
+-- if not configs.rust_hdl then
+--   configs.rust_hdl = {
+--     default_config = {
+--       cmd = {'/home/j_mudo/repos/rust_hdl/target/release/vhdl_ls'};
+--       filetypes = { "vhdl" };
+--       root_dir = function(fname)
+--         return lspconfig.util.root_pattern('vhdl_ls.toml')(fname) or lspconfig.util.path.dirname(fname)
+--       end;
+--       settings = {};
+--     };
+--   }
+-- end
+
+-- Manual add rust_hdl server
 if not configs.rust_hdl then
   configs.rust_hdl = {
     default_config = {
+      capabilities = capabilities,
       cmd = {'/home/j_mudo/repos/rust_hdl/target/release/vhdl_ls'};
       filetypes = { "vhdl" };
       root_dir = function(fname)
-        return lspconfig.util.root_pattern('vhdl_ls.toml')(fname) or lspconfig.util.path.dirname(fname)
-      end;
+        return lspconfig.util.root_pattern('vhdl_ls.toml')(fname) or util.find_git_ancestor(fname)
+      end,
       settings = {};
     };
   }
 end
 
--- lspconfig.rust_hdl.setup{
---   on_attach = custom_attach
--- }
-
-if not configs.svlangserver then
-    configs.svlangserver = {
-      default_config = {
-        cmd = {'svlangserver'},
-        filetypes = {'verilog', 'systemverilog'},
-        root_dir = function(fname)
-          return util.find_git_ancestor(fname) or util.path.dirname(fname)
-        end,
-        settings = {}
-      },
-    }
-end
-lspconfig.svlangserver.setup{
+lspconfig.rust_hdl.setup{
   on_attach = custom_attach
 }
+
+-- if not configs.svlangserver then
+--     configs.svlangserver = {
+--       default_config = {
+--         cmd = {'svlangserver'},
+--         filetypes = {'verilog', 'systemverilog'},
+--         root_dir = function(fname)
+--           return util.find_git_ancestor(fname) or util.path.dirname(fname)
+--         end,
+--         settings = {}
+--       },
+--     }
+-- end
+-- lspconfig.svlangserver.setup{
+--   on_attach = custom_attach
+-- }
 
 -- EXPERIMENTAL
 
