@@ -20,6 +20,8 @@ packer.startup{
       end
     }
 
+    -- Command legend
+    use "mrjones2014/legendary.nvim"
     -- Lsp and autocompletion stuff
     use "neovim/nvim-lspconfig"
     use "anott03/nvim-lspinstall"
@@ -48,78 +50,17 @@ packer.startup{
     use 'quangnguyen30192/cmp-nvim-tags'
     -- use 'hrsh7th/cmp-nvim-lsp-signature-help'
 
+    use "Olical/conjure"
+    use "udayvir-singh/tangerine.nvim"
+    use "udayvir-singh/hibiscus.nvim"
+
     -- Tags
     use {'ludovicchabant/vim-gutentags',
       config = function()
         vim.g.gutentags_project_root = {'vhdl_ls.toml', 'Makefile', 'Cargo.toml'}
       end
     }
-    -- use {
-    --   'c0r73x/neotags.lua',
-    --     config = function()
-    --     require('neotags').setup({
-    --       enable = true, -- enable neotags.lua
-    --       ctags = {
-    --           run = true, -- run ctags
-    --           directory = '~/.vim_tags', -- default directory where to store tags
-    --           verbose = false, -- verbose ctags output
-    --           binary = 'ctags', -- ctags binary
-    --           args = { -- ctags arguments
-    --               '--fields=+l',
-    --               '--c-kinds=+p',
-    --               '--c++-kinds=+p',
-    --               '--sort=no',
-    --               '-a'
-    --           },
-    --       },
-    --       ft_conv = { -- ctags filetypes to vim filetype
-    --           ['c++'] = 'cpp',
-    --           ['moonscript'] = 'moon',
-    --           ['c#'] = 'cs'
-    --       },
-    --       ft_map = { -- combine tags from multiple languages (for example header files in c/cpp)
-    --           cpp = { 'cpp', 'c' },
-    --           c = { 'c', 'cpp' }
-    --       },
-    --       hl = {
-    --           minlen = 3, -- dont include tags shorter than this
-    --           patternlength = 2048, -- max syntax length when splitting it into chunks
-    --           prefix = [[\C\<]], -- default syntax prefix
-    --           suffix = [[\>]] -- default syntax suffix
-    --       },
-    --       tools = {
-    --           find = nil, -- tool to find files (defaults to running ctags with -R)
-    --           -- find = { -- example using fd
-    --           --     binary = 'fd',
-    --           --     args = { '-t', 'f', '-H', '--full-path' },
-    --           -- },
-    --       },
-    --       ignore = { -- filetypes to ignore
-    --           'cfg',
-    --           'conf',
-    --           'help',
-    --           'mail',
-    --           'markdown',
-    --           'nerdtree',
-    --           'nofile',
-    --           'readdir',
-    --           'qf',
-    --           'text',
-    --           'plaintext'
-    --       },
-    --       notin = { -- where not to include highlights
-    --           '.*String.*',
-    --           '.*Comment.*',
-    --           'cIncluded',
-    --           'cCppOut2',
-    --           'cCppInElse2',
-    --           'cCppOutIf2',
-    --           'pythonDocTest',
-    --           'pythonDocTest2'
-    --       }
-    --     })
-    --   end
-    -- }
+
     -- language specific plugins
     use 'p00f/clangd_extensions.nvim'
     use {
@@ -158,7 +99,8 @@ packer.startup{
 
 
     -- Lua helpers
-    use "folke/lua-dev.nvim"
+    -- use "folke/lua-dev.nvim"
+    use "folke/neodev.nvim"
 
     -- Snippets and engines
     -- use "norcalli/snippets.nvim"
@@ -182,7 +124,8 @@ packer.startup{
       --   require('plugins/treesitter')
       -- end
     }
-    -- super useful to make own targets like ip (inner paragraph)
+
+    -- useful to make own targets like ip (inner paragraph)
     use "nvim-treesitter/nvim-treesitter-textobjects"
 
     -- Fuzzy Finder
@@ -202,8 +145,8 @@ packer.startup{
     -- use "davidgranstrom/nvim-markdown-preview"
     use {'iamcco/markdown-preview.nvim', run={'cd app && yarn install'}}
     use "gabrielelana/vim-markdown"
-    use "vim-pandoc/vim-pandoc"
-    use "vim-pandoc/vim-pandoc-syntax"
+    -- use "vim-pandoc/vim-pandoc"
+    -- use "vim-pandoc/vim-pandoc-syntax"
     -- use {"shime/vim-livedown", run = {"npm install -g livedown"}}
 
     -- Latex
@@ -220,6 +163,7 @@ packer.startup{
     use "mfussenegger/nvim-dap"
     use "rcarriga/nvim-dap-ui"
     use "mfussenegger/nvim-dap-python"
+    use "rcarriga/cmp-dap"
     use "szw/vim-maximizer" -- Maximizing windows
 
     -- Lua
@@ -268,10 +212,10 @@ packer.startup{
     }
     use "f-person/git-blame.nvim"
     use "samoshkin/vim-mergetool"
-    -- use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
+    use 'tpope/vim-fugitive'
+    use {"lewis6991/gitsigns.nvim", requires = {"nvim-lua/plenary.nvim"}}
     -- safe fallback
     -- use 'airblade/vim-gitgutter'
-    -- use 'tpope/vim-fugitive'
 
     -- Json cool integration
     use "gennaro-tedesco/nvim-jqx"
@@ -352,16 +296,20 @@ packer.startup{
       "neovim/nvim-lspconfig",
       "williamboman/nvim-lsp-installer"
       },
-      -- config = function ()
-      --   require('plugins/grammar-guard')
-      -- end,
-      -- ft = {'markdown', 'neorg', 'org', 'pandoc', 'text', 'txt'}
+    }
+    use {
+      'phaazon/mind.nvim',
+      branch = 'v2.2',
+      requires = { 'nvim-lua/plenary.nvim' },
+      config = function()
+        require'mind'.setup()
+      end
     }
     use "jbyuki/nabla.nvim" -- view equations
     use 'ekickx/clipboard-image.nvim'
       -- Telekasten
-    -- use "itchyny/calendar.vim" --scheduling
-    use "renerocksai/calendar-vim" -- fork with fixed week calculations
+    use "itchyny/calendar.vim" --scheduling
+    -- use "renerocksai/calendar-vim" -- fork with fixed week calculations
     use "nvim-telescope/telescope-media-files.nvim"
     use "nvim-telescope/telescope-symbols.nvim"
     use "mzlogin/vim-markdown-toc"
@@ -373,12 +321,12 @@ packer.startup{
       },
     }
       -- org-mode
-    --use "nvim-orgmode/orgmode"
-    --use "akinsho/org-bullets.nvim"
+    use "nvim-orgmode/orgmode"
+    use "akinsho/org-bullets.nvim"
     use "lukas-reineke/headlines.nvim" -- general highlighting of headlines
-    --use "dhruvasagar/vim-table-mode" -- table support
+    use "dhruvasagar/vim-table-mode" -- table support
       -- neorg
-    --use "nvim-neorg/neorg"
+    use "nvim-neorg/neorg"
 
     --notifications
     use "rcarriga/nvim-notify"

@@ -6,7 +6,7 @@ local util = require('lspconfig.util')
 local env_vars = vim.fn.environ()
 
 --Enable (broadcasting) snippet capability for completion
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 -- local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
@@ -207,44 +207,21 @@ lspconfig.vimls.setup{
 
 -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
 
-local luadev = require('lua-dev').setup({
-  library = {
-      vimruntime = true, -- runtime path
-      types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
-      plugins = true, -- installed opt or start plugins in packpath
-      -- you can also specify the list of plugins to make available as a workspace library
-      -- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
-  },
-  lspconfig = {
-    -- cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-    settings = {
-      Lua = {
-        runtime = {
-          -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-          version = 'LuaJIT',
-          -- Setup your lua path
-          path = vim.split(package.path, ';'),
-        },
-        diagnostics = {
-          -- Get the language server to recognize the `vim` global
-          globals = {'vim'},
-        },
-        workspace = {
-          -- Make the server aware of Neovim runtime files
-          library = vim.api.nvim_get_runtime_file("", true)
-        },
-        -- disable telemetry
-        telemetry = {
-          enable = false
-        }
-      },
-    },
-    on_attach = custom_attach,
-    capabilities = capabilities
-  }
+
+require("neodev").setup({
+  -- add any options here, or leave empty to use the default settings
 })
 
-lspconfig.sumneko_lua.setup(luadev)
+
+lspconfig.sumneko_lua.setup({
+  settings = {
+    Lua = {
+      completion = {
+        callSnippet = "Replace"
+      }
+    }
+  }
+})
 
 -- C#
 local pid = vim.fn.getpid()
