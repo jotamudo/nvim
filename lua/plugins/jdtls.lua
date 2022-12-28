@@ -14,7 +14,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 
-local workspace_dir = '/home/j_mudo/projs/Java' .. project_name
+local workspace_dir = '/home/j_mudo/projs/Java/' .. project_name
 
 local custom_attach = function(client)
   -- require'lsp_signature'.on_attach()

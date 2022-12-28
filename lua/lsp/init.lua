@@ -28,9 +28,9 @@ local custom_attach = function(client)
         augroup END
       ]]
   end
-  if client.name == "pyright" then
-    client.server_capabilities.completionProvider = false
-  end
+  -- if client.name == "pyright" then
+  --   client.server_capabilities.completionProvider = false
+  -- end
 
   print("Lsp ready")
 end
@@ -161,7 +161,7 @@ lspconfig.pyright.setup{
   }
 }
 
-lspconfig.jedi_language_server.setup{}
+-- lspconfig.jedi_language_server.setup{}
 
 -- lspconfig.jedi_language_server.setup{
 --     on_attach=custom_attach,

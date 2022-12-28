@@ -18,4 +18,5 @@ set('n', '<leader>D', function() vim.lsp.buf.type_definition() end)
 set('n', '<leader>rn', function() vim.lsp.buf.rename() end)
 set('n', '<leader>ga', function() vim.lsp.buf.code_action() end)
 set('n', 'gr', function() vim.lsp.buf.references() end)
--- set('n', '<leader>f', function() vim.lsp.buf.formatting() end)
+-- deprecated as format is now default for formatprg
+--set('n', '<leader>gf', function() vim.lsp.buf.formatting() end)

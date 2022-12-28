@@ -138,7 +138,7 @@ local servers = {
   'clangd',
   'rust_analyzer',
   'pyright',
-  'jedi_language_server',
+  -- 'jedi_language_server',
   'jdtls',
 }
 for _, srv in pairs(servers) do

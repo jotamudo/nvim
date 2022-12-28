@@ -24,13 +24,23 @@ packer.startup{
     use "mrjones2014/legendary.nvim"
     -- Lsp and autocompletion stuff
     use "neovim/nvim-lspconfig"
-    use "anott03/nvim-lspinstall"
+    -- Automatic language server and debug adapter installation
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
+    use "jayp0521/mason-nvim-dap.nvim"
     use "nvim-lua/lsp-status.nvim"
     use "j-hui/fidget.nvim"
     -- use "tami5/lspsaga.nvim"
     use {"RishabhRD/nvim-lsputils", requires = "RishabhRD/popfix"}
     use "onsails/lspkind-nvim"
     use "jubnzv/virtual-types.nvim"
+
+    use {
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
+      end,
+    }
     -- signature hint when typing
     use "ray-x/lsp_signature.nvim"
     -- autocompletion
@@ -50,16 +60,23 @@ packer.startup{
     use 'quangnguyen30192/cmp-nvim-tags'
     -- use 'hrsh7th/cmp-nvim-lsp-signature-help'
 
-    use "Olical/conjure"
+    -- use "Olical/conjure"
     use "udayvir-singh/tangerine.nvim"
     use "udayvir-singh/hibiscus.nvim"
 
+    -- Debugging :TODO: consider vimspector
+    use "mfussenegger/nvim-dap"
+    use "rcarriga/nvim-dap-ui"
+    use "mfussenegger/nvim-dap-python"
+    use "rcarriga/cmp-dap"
+    use "szw/vim-maximizer" -- Maximizing windows
+
     -- Tags
-    use {'ludovicchabant/vim-gutentags',
-      config = function()
-        vim.g.gutentags_project_root = {'vhdl_ls.toml', 'Makefile', 'Cargo.toml'}
-      end
-    }
+    -- use {'ludovicchabant/vim-gutentags',
+    --   config = function()
+    --     vim.g.gutentags_project_root = {'vhdl_ls.toml', 'Makefile', 'Cargo.toml'}
+    --   end
+    -- }
 
     -- language specific plugins
     use 'p00f/clangd_extensions.nvim'
@@ -159,12 +176,6 @@ packer.startup{
     -- Colorscheme
     use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 
-    -- Debugging :TODO: consider vimspector
-    use "mfussenegger/nvim-dap"
-    use "rcarriga/nvim-dap-ui"
-    use "mfussenegger/nvim-dap-python"
-    use "rcarriga/cmp-dap"
-    use "szw/vim-maximizer" -- Maximizing windows
 
     -- Lua
     -- use "bfredl/nvim-luadev"
@@ -334,9 +345,9 @@ packer.startup{
     -- Image support
     use {
       'edluffy/hologram.nvim',
-      config = function ()
-        require('hologram').setup()
-      end
+      -- config = function ()
+      --   require('hologram').setup()
+      -- end
     }
 
     -- quality of life improvements
