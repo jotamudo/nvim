@@ -1,2 +1,2 @@
 require('mappings/main')
-require('mappings/plugins')
+-- require('mappings/plugins')

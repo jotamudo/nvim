@@ -1,6 +1,3 @@
-local utils = require('nvim_utils')
-
-local mappings = {
-    ["n<leader>e"] = {":NvimTreeToggle<CR>", noremap = true}
+return {
+  {"<leader>e", ":NvimTreeToggle<CR>"}
 }
-nvim_apply_mappings(mappings)
