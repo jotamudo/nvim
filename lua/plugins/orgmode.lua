@@ -6,6 +6,8 @@ return {
     "dhruvasagar/vim-table-mode" -- table support
   },
   config = function()
-    require('headlines').setup()
+    local org = require('orgmode')
+    org.setup();
+    org.setup_ts_grammar()
   end
 }

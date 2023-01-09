@@ -58,7 +58,7 @@ local o_options = {
   listchars = "tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»",
   hidden = true,
   guifont = "Iosevka Nerd Font Mono:h14",
-  lazyredraw = true, -- don't update screen when doing macros
+  -- lazyredraw = true, -- don't update screen when doing macros
 }
 
 for name, value in pairs(o_options) do
@@ -147,15 +147,6 @@ vim.api.nvim_create_autocmd(
   }
 )
 require("packages")
--- Colorscheme
-vim.cmd(
-  [[
-        syntax enable
-        colorscheme gruvbox 
-        set background=dark
-        " hi! Normal ctermbg=None guibg=None
-]]
-)
 
 -- ftplugin for zk
 vim.cmd("filetype plugin on")

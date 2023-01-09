@@ -2,50 +2,56 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     config = true,
-    lazy = false
   },
-  -- {
-  --   "ErichDonGubler/lsp_lines.nvim",
-  --   -- keys = require("mappings.plugins.lsp_lines"),
-  --   keys = {"<leader>l", require("lsp_lines").toggle},
-  --   dependencies = "neovim/nvim-lspconfig",
-  --   config = function()
-  --     require("lsp_lines").setup()
-  --   end
-  -- },
+  {
+    url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    dependencies = "neovim/nvim-lspconfig",
+    config = function ()
+      local ll = require("lsp_lines")
+      ll.setup()
+      vim.keymap.set("n", "<leader>l", ll.toggle, {silent = true, desc = "Toggle [L]ines"})
+    end
+  },
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim", config = true },
+      {"folke/neoconf.nvim", cmd = "Neoconf", config = true},
+      {"folke/neodev.nvim", config = true},
       "p00f/clangd_extensions.nvim",
       "simrat39/rust-tools.nvim",
+      "williamboman/mason.nvim",
+      {
+        "brymer-meneses/grammar-guard.nvim",
+        config = function()
+          require("grammar-guard").init()
+        end,
+        ft = {"md", "latex"}
+      },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jubnzv/virtual-types.nvim",
       "hrsh7th/cmp-nvim-lsp"
     },
     keys = require("plugins.lsp.mappings"),
-    lazy = false,
     config = function()
-      local lspconfig = require('lspconfig')
-      local configs = require('lspconfig.configs')
-      local util = require('lspconfig.util')
+      local lspconfig = require("lspconfig")
+      local configs = require("lspconfig.configs")
+      local util = require("lspconfig.util")
       local env_vars = vim.fn.environ()
 
       vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335]]
       vim.cmd [[autocmd! ColorScheme * highlight FloatBorder guifg=white guibg=#1f2335]]
 
       local border = {
-        { "🭽", "FloatBorder" },
-        { "▔", "FloatBorder" },
-        { "🭾", "FloatBorder" },
-        { "▕", "FloatBorder" },
-        { "🭿", "FloatBorder" },
-        { "▁", "FloatBorder" },
-        { "🭼", "FloatBorder" },
-        { "▏", "FloatBorder" },
+        {"🭽", "FloatBorder"},
+        {"▔", "FloatBorder"},
+        {"🭾", "FloatBorder"},
+        {"▕", "FloatBorder"},
+        {"🭿", "FloatBorder"},
+        {"▁", "FloatBorder"},
+        {"🭼", "FloatBorder"},
+        {"▏", "FloatBorder"}
       }
 
       -- To instead override globally
@@ -57,12 +63,11 @@ return {
       end
 
       -- change diagnostic symbols
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      local signs = {Error = " ", Warn = " ", Hint = " ", Info = " "}
       for type, icon in pairs(signs) do
         local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = hl})
       end
-
 
       local icons = {
         Class = " ",
@@ -85,7 +90,7 @@ return {
         Text = " ",
         Unit = " ",
         Value = " ",
-        Variable = " ",
+        Variable = " "
       }
 
       local kinds = vim.lsp.protocol.CompletionItemKind
@@ -94,31 +99,32 @@ return {
       end
 
       -- customize diagnostic info
-      vim.diagnostic.config({
-        virtual_text = {
-          source = "always",
-          prefix = '●'
-        },
-        float = {
-          source = "always"
-        },
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        severity_sort = false,
-      })
+      vim.diagnostic.config(
+        {
+          virtual_text = {
+            source = "always",
+            prefix = "●"
+          },
+          float = {
+            source = "always"
+          },
+          signs = true,
+          underline = true,
+          update_in_insert = false,
+          severity_sort = false
+        }
+      )
 
       -- show diagnostic on cursor on floating window
       vim.o.updatetime = 250
       vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]
 
-
       --Enable (broadcasting) snippet capability for completion
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       -- local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = { "documentation", "detail", "additionalTextEdits" },
+        properties = {"documentation", "detail", "additionalTextEdits"}
       }
 
       -- See uses
@@ -143,7 +149,6 @@ return {
         print("Lsp ready")
       end
 
-
       require("clangd_extensions").setup {
         server = {
           -- options to pass to nvim-lspconfig
@@ -155,7 +160,7 @@ return {
             completeUnimported = true
           },
           flags = {
-            debounce_text_changes = 150,
+            debounce_text_changes = 150
           }
         },
         extensions = {
@@ -192,7 +197,7 @@ return {
             -- padding from the right if right_align is true
             right_align_padding = 7,
             -- The color of the hints
-            highlight = "Comment",
+            highlight = "Comment"
           },
           ast = {
             role_icons = {
@@ -201,9 +206,8 @@ return {
               expression = "",
               specifier = "",
               statement = "",
-              ["template argument"] = "",
+              ["template argument"] = ""
             },
-
             kind_icons = {
               Compound = "",
               Recovery = "",
@@ -211,54 +215,55 @@ return {
               PackExpansion = "",
               TemplateTypeParm = "",
               TemplateTemplateParm = "",
-              TemplateParamObject = "",
+              TemplateParamObject = ""
             },
-
             highlights = {
-              detail = "Comment",
-            },
+              detail = "Comment"
+            }
           }
         }
       }
 
-      lspconfig.grammar_guard.setup({
-        cmd = { env_vars.HOME .. '/.local/share/nvim/lsp_servers/ltex/ltex-ls/bin/ltex-ls' }, -- add this if you install ltex-ls yourself
-        settings = {
-          ltex = {
-            enabled = { "latex", "tex", "bib", "markdown", "pandoc", "vimwiki" },
-            language = { "en", "fr" },
-            diagnosticSeverity = "information",
-            setenceCacheSize = 2000,
-            additionalRules = {
-              enablePickyRules = true,
-              motherTongue = "en",
-            },
-            trace = { server = "verbose" },
-            dictionary = {},
-            disabledRules = {},
-            hiddenFalsePositives = {},
-            completionEnabled = true,
-          },
-        },
-      })
+      lspconfig.grammar_guard.setup(
+        {
+          cmd = {env_vars.HOME .. "/.local/share/nvim/lsp_servers/ltex/ltex-ls/bin/ltex-ls"}, -- add this if you install ltex-ls yourself
+          settings = {
+            ltex = {
+              enabled = {"latex", "tex", "bib", "markdown", "pandoc", "vimwiki"},
+              language = {"en", "fr"},
+              diagnosticSeverity = "information",
+              setenceCacheSize = 2000,
+              additionalRules = {
+                enablePickyRules = true,
+                motherTongue = "en"
+              },
+              trace = {server = "verbose"},
+              dictionary = {},
+              disabledRules = {},
+              hiddenFalsePositives = {},
+              completionEnabled = true
+            }
+          }
+        }
+      )
 
       lspconfig.cmake.setup {
         on_attach = custom_attach,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
       lspconfig.bashls.setup {
         on_attach = custom_attach,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
 
       lspconfig.pyright.setup {
         on_attach = custom_attach,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         },
         settings = {
           python = {
@@ -286,12 +291,11 @@ return {
       --   }
       -- }
 
-
       lspconfig.texlab.setup {
         on_attach = custom_attach,
         capabilities = capabilities,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
 
@@ -299,46 +303,42 @@ return {
         on_attach = custom_attach,
         capabilities = capabilities,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
-
       }
 
       lspconfig.vimls.setup {
         on_attach = custom_attach,
         capabilities = capabilities,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
-
       }
 
       -- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
 
+      require("neodev").setup({})
 
-      require("neodev").setup({
-        -- add any options here, or leave empty to use the default settings
-      })
-
-
-      lspconfig.sumneko_lua.setup({
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = "Replace"
+      lspconfig.sumneko_lua.setup(
+        {
+          settings = {
+            Lua = {
+              completion = {
+                callSnippet = "Replace"
+              }
             }
           }
         }
-      })
+      )
 
       -- C#
       local pid = vim.fn.getpid()
-      local omnisharp_bin = '/usr/bin/omnisharp'
+      local omnisharp_bin = "/usr/bin/omnisharp"
 
       lspconfig.omnisharp.setup {
-        cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+        cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
 
@@ -347,23 +347,21 @@ return {
         on_attach = custom_attach,
         capabilities = capabilities,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
-
       }
       lspconfig.tsserver.setup {
         on_attach = custom_attach,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
       lspconfig.cssls.setup {
         on_attach = custom_attach,
         flags = {
-          debounce_text_changes = 150,
+          debounce_text_changes = 150
         }
       }
-
 
       local extension_path = env_vars.HOME .. ".vscode-oss/extensions/vadimcn.vscode-lldb-1.6.10/"
       local codelldb_path = extension_path .. "adapter/codelldb"
@@ -372,7 +370,7 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = { "documentation", "detail", "additionalTextEdits" }
+        properties = {"documentation", "detail", "additionalTextEdits"}
       }
 
       local opts = {
@@ -432,14 +430,14 @@ return {
             -- the border that is used for the hover window
             -- see vim.api.nvim_open_win()
             border = {
-              { "╭", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╮", "FloatBorder" },
-              { "│", "FloatBorder" },
-              { "╯", "FloatBorder" },
-              { "─", "FloatBorder" },
-              { "╰", "FloatBorder" },
-              { "│", "FloatBorder" }
+              {"╭", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"╮", "FloatBorder"},
+              {"│", "FloatBorder"},
+              {"╯", "FloatBorder"},
+              {"─", "FloatBorder"},
+              {"╰", "FloatBorder"},
+              {"│", "FloatBorder"}
             },
             -- whether the hover action window gets automatically focused
             auto_focus = false
@@ -517,7 +515,6 @@ return {
       --   on_attach = custom_attach
       -- }
 
-
       -- if not configs.rust_hdl then
       --   configs.rust_hdl = {
       --     default_config = {
@@ -536,13 +533,13 @@ return {
         configs.rust_hdl = {
           default_config = {
             capabilities = capabilities,
-            cmd = { '/home/j_mudo/repos/rust_hdl/target/release/vhdl_ls' };
-            filetypes = { "vhdl" };
+            cmd = {"/home/j_mudo/repos/rust_hdl/target/release/vhdl_ls"},
+            filetypes = {"vhdl"},
             root_dir = function(fname)
-              return lspconfig.util.root_pattern('vhdl_ls.toml')(fname) or util.find_git_ancestor(fname)
+              return lspconfig.util.root_pattern("vhdl_ls.toml")(fname) or util.find_git_ancestor(fname)
             end,
-            settings = {};
-          };
+            settings = {}
+          }
         }
       end
 
@@ -568,7 +565,6 @@ return {
 
       -- EXPERIMENTAL
 
-
       --lspconfig.ccls.setup{
       --on_attach=require'completion'.on_attach,
       --init_options = {
@@ -586,8 +582,6 @@ return {
       --}
       --},
       --}
-
-
     end
   }
 }

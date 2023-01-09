@@ -1,7 +1,11 @@
 return {
   {
     "jose-elias-alvarez/null-ls.nvim",
-    lazy = false
+    event = "BufReadPre",
+    dependencies = {
+      "williamboman/mason.nvim",
+      "jayp0521/mason-null-ls.nvim"
+    }
   },
   {
     "jayp0521/mason-null-ls.nvim",
