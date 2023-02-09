@@ -1,6 +1,6 @@
 return {
   "lervag/vimtex",
-  ft = {"latex"},
+  ft = {"tex"},
   config = function ()
     vim.cmd([[
   autocmd FileType tex let g:indentLine_enabled = 0

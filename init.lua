@@ -54,7 +54,7 @@ local o_options = {
   shiftwidth = 2,
   tabstop = 2,
   clipboard = "unnamedplus",
-  formatprg = "par\\ -rjw79",
+  -- formatprg = "par\\ -rjw79",
   listchars = "tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»",
   hidden = true,
   guifont = "Iosevka Nerd Font Mono:h14",
@@ -73,6 +73,7 @@ vim.cmd([[
   set noswapfile
   set cc=80
 ]])
+
 -- Setting up tabs and keeping my sanity on Makefiles
 vim.cmd([[
 set expandtab
@@ -107,27 +108,12 @@ vim.cmd([[
 vim.cmd([[autocmd FileType make set nosmarttab]])
 
 -- Relative number doings
-vim.cmd([[set number relativenumber]])
+-- vim.cmd([[set number relativenumber]])
 -- map_toggle_settings("number", "relativenumber")
 -- completion helper
 vim.cmd([[
   set shortmess+=c
 ]])
-
-local autocmds = {
-  relativenumbers = {
-    {"BufEnter", "*", "set relativenumber"},
-    {"FocusGained", "*", "set relativenumber"},
-    {"InsertLeave", "*", "set relativenumber"},
-    {"BufLeave", "*", "set norelativenumber"},
-    {"FocusLost", "*", "set norelativenumber"},
-    {"InsertEnter", "*", "set norelativenumber"}
-  },
-  files = {
-    -- Going back to last line when opening file
-    {"BufReadPost", "*", [[if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif]]}
-  }
-}
 
 local relnums = vim.api.nvim_create_augroup("RelativeNumbers", {clear = true})
 vim.api.nvim_create_autocmd("BufEnter", {pattern = "*", command = "set relativenumber", group = relnums})

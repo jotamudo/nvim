@@ -46,7 +46,7 @@ return {
     end
 
     -- Function to stylize file_info
-    local file_info_color = function(follow_vi_mode_color)
+    local file_info_color = function()
       local filename = vim.fn.expand('%:t')
       local extension = vim.fn.expand('%:e')
       local icon, color = devicons.get_icon_colors(filename, extension)

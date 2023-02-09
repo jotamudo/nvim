@@ -1,6 +1,6 @@
 return {
   "L3MON4D3/LuaSnip",
-  requires = {
+  dependencies = {
     "rafamadriz/friendly-snippets",
     "honza/vim-snippets"
   },

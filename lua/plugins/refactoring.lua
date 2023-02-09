@@ -1,11 +1,11 @@
 return {
   "ThePrimeagen/refactoring.nvim",
-  requires = {
+  dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-treesitter/nvim-treesitter"
   },
   keys = require("mappings.plugins.refactoring"),
-  config = {
+  opts = {
     -- prompt for return type
     prompt_func_return_type = {
       go = true,
