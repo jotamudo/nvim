@@ -128,7 +128,7 @@ require("lazy").setup("plugins")
 --     -- File Tree
 --     use {
 --       "folke/trouble.nvim",
---       requires = "kyazdani42/nvim-web-devicons",
+--       requires = "nvim-tree/nvim-web-devicons",
 --       config = function()
 --         require("trouble").setup {}
 --       end

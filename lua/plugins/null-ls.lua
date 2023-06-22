@@ -20,7 +20,6 @@ return {
           automatic_setup = true -- Recommended, but optional
         })
       require("null-ls").setup()
-      mason_null_ls.setup_handlers() -- If `automatic_setup` is true.
     end
   }
 }

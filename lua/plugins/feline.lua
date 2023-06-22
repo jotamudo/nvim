@@ -1,9 +1,10 @@
 return {
   "feline-nvim/feline.nvim",
+  enabled = false,
   lazy = false,
   dependencies = {
     "SmiteshP/nvim-gps",
-    "kyazdani42/nvim-web-devicons"
+    "nvim-tree/nvim-web-devicons"
   },
   config = function()
     local feline = require('feline')

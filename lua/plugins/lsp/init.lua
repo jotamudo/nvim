@@ -142,6 +142,9 @@ return {
               augroup END
             ]]
         end
+        if client.server_capabilities.inlayHint then
+          vim.lsp.buf.inlay_hints(0, true)
+        end
         -- if client.name == "pyright" then
         --   client.server_capabilities.completionProvider = false
         -- end
@@ -319,12 +322,15 @@ return {
 
       require("neodev").setup({})
 
-      lspconfig.sumneko_lua.setup(
+      lspconfig.lua_ls.setup(
         {
           settings = {
             Lua = {
               completion = {
                 callSnippet = "Replace"
+              },
+              hint = {
+                enable = true
               }
             }
           }

@@ -1,8 +1,8 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
+  event = {"InsertEnter", "CmdlineEnter"},
   keys = {":", "/"},
-  -- lazy = false,
+  lazy = false,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
