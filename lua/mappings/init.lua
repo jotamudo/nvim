@@ -36,6 +36,7 @@ set("i", "kj", "<ESC>", { silent = true, noremap = true })
 -- Searching for highlighted text on visual mode
 set("v", "*", ":<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>", { silent = true })
 set("v", "#", ":<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>", { silent = true })
+
 -- Quick window hopping
 set("n", "<C-j>", "<C-w>j", { silent = true, noremap = true })
 set("n", "<C-k>", "<C-w>k", { silent = true, noremap = true })

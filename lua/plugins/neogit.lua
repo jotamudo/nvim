@@ -1,6 +1,6 @@
 -- TODO: PLEASE IMPLEMENT THIS FOR Fs SAKE
 return {
-  "TimUntersberger/neogit",
+  "NeogitOrg/neogit",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "sindrets/diffview.nvim"

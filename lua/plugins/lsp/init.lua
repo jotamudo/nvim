@@ -7,6 +7,7 @@ return {
     url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
     dependencies = "neovim/nvim-lspconfig",
     config = function ()
+      vim.diagnostic.config({ virtual_text = false })
       local ll = require("lsp_lines")
       ll.setup()
       vim.keymap.set("n", "<leader>l", ll.toggle, {silent = true, desc = "Toggle [L]ines"})
@@ -34,6 +35,11 @@ return {
       "hrsh7th/cmp-nvim-lsp"
     },
     keys = require("plugins.lsp.mappings"),
+    opts = {
+      inlay_hints = {
+        enabled = true
+      }
+    },
     config = function()
       local lspconfig = require("lspconfig")
       local configs = require("lspconfig.configs")
@@ -128,7 +134,7 @@ return {
       }
 
       -- See uses
-      local custom_attach = function(client)
+      local custom_attach = function(client, bufnr)
         -- require'lsp_signature'.on_attach()
         if client.server_capabilities.document_highlight then
           vim.cmd [[
@@ -142,9 +148,26 @@ return {
               augroup END
             ]]
         end
-        if client.server_capabilities.inlayHint then
-          vim.lsp.buf.inlay_hints(0, true)
+
+        -- inlay hints for clangd
+
+        -- if client.server_capabilities.inlayHintProvider then
+        --   vim.lsp.inlay_hints(0, true)
+        -- end
+        if client.server_capabilities.inlayHintProvider then
+          vim.g.inlay_hints_visible = true
+          vim.lsp.inlay_hint(bufnr, true)
+        else
+          print("no inlay hints available")
         end
+
+        -- disable highlight on big files
+        local buf_name = vim.api.nvim_buf_get_name(bufnr)
+        local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+        if file_size > 256 * 1024 then
+          client.server_capabilities.semanticTokensProvider = nil
+        end
+
         -- if client.name == "pyright" then
         --   client.server_capabilities.completionProvider = false
         -- end
@@ -152,8 +175,8 @@ return {
         print("Lsp ready")
       end
 
-      require("clangd_extensions").setup {
-        server = {
+      lspconfig.clangd.setup({
+          cmd = {"clangd", "--background-index", "--suggest-missing-includes", "--enable-config"},
           -- options to pass to nvim-lspconfig
           -- i.e. the arguments to require("lspconfig").clangd.setup({})
           on_attach = custom_attach,
@@ -165,67 +188,102 @@ return {
           flags = {
             debounce_text_changes = 150
           }
-        },
-        extensions = {
-          -- defaults:
-          -- Automatically set inlay hints (type hints)
-          autoSetHints = true,
-          -- Whether to show hover actions inside the hover window
-          -- This overrides the default hover handler
-          hover_with_actions = true,
-          -- These apply to the default ClangdSetInlayHints command
-          inlay_hints = {
-            -- Only show inlay hints for the current line
-            only_current_line = false,
-            -- Event which triggers a refersh of the inlay hints.
-            -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
-            -- not that this may cause  higher CPU usage.
-            -- This option is only respected when only_current_line and
-            -- autoSetHints both are true.
-            only_current_line_autocmd = "CursorHold",
-            -- whether to show parameter hints with the inlay hints or not
-            show_parameter_hints = true,
-            -- whether to show variable name before type hints with the inlay hints or not
-            show_variable_name = false,
-            -- prefix for parameter hints
-            parameter_hints_prefix = "<- ",
-            -- prefix for all the other hints (type, chaining)
-            other_hints_prefix = "=> ",
-            -- whether to align to the length of the longest line in the file
-            max_len_align = false,
-            -- padding from the left if max_len_align is true
-            max_len_align_padding = 1,
-            -- whether to align to the extreme right or not
-            right_align = false,
-            -- padding from the right if right_align is true
-            right_align_padding = 7,
-            -- The color of the hints
-            highlight = "Comment"
-          },
-          ast = {
-            role_icons = {
-              type = "",
-              declaration = "",
-              expression = "",
-              specifier = "",
-              statement = "",
-              ["template argument"] = ""
-            },
-            kind_icons = {
-              Compound = "",
-              Recovery = "",
-              TranslationUnit = "",
-              PackExpansion = "",
-              TemplateTypeParm = "",
-              TemplateTemplateParm = "",
-              TemplateParamObject = ""
-            },
-            highlights = {
-              detail = "Comment"
-            }
-          }
-        }
-      }
+
+      })
+
+      -- require('clangd_extensions').setup({
+      --   inlay_hints = {
+      --     inline = vim.fn.has("nvim-0.10") == 1,
+      --     -- Options other than `highlight' and `priority' only work
+      --     -- if `inline' is disabled
+      --     -- Only show inlay hints for the current line
+      --     only_current_line = false,
+      --     -- Event which triggers a refresh of the inlay hints.
+      --     -- You can make this { "CursorMoved" } or { "CursorMoved,CursorMovedI" } but
+      --     -- not that this may cause  higher CPU usage.
+      --     -- This option is only respected when only_current_line and
+      --     -- autoSetHints both are true.
+      --     only_current_line_autocmd = { "CursorHold" },
+      --     -- whether to show parameter hints with the inlay hints or not
+      --     show_parameter_hints = true,
+      --     -- prefix for parameter hints
+      --     parameter_hints_prefix = "<- ",
+      --     -- prefix for all the other hints (type, chaining)
+      --     other_hints_prefix = "=> ",
+      --     -- whether to align to the length of the longest line in the file
+      --     max_len_align = false,
+      --     -- padding from the left if max_len_align is true
+      --     max_len_align_padding = 1,
+      --     -- whether to align to the extreme right or not
+      --     right_align = false,
+      --     -- padding from the right if right_align is true
+      --     right_align_padding = 7,
+      --     -- The color of the hints
+      --     highlight = "Comment",
+      --     -- The highlight group priority for extmark
+      --     priority = 100,
+      --   },
+      -- })
+
+      -- require("clangd_extensions").setup {
+      --   -- defaults:
+      --   -- Automatically set inlay hints (type hints)
+      --   autoSetHints = true,
+      --   -- Whether to show hover actions inside the hover window
+      --   -- This overrides the default hover handler
+      --   hover_with_actions = true,
+      --   -- These apply to the default ClangdSetInlayHints command
+      --   inlay_hints = {
+      --     -- Only show inlay hints for the current line
+      --     only_current_line = false,
+      --     -- Event which triggers a refersh of the inlay hints.
+      --     -- You can make this "CursorMoved" or "CursorMoved,CursorMovedI" but
+      --     -- not that this may cause  higher CPU usage.
+      --     -- This option is only respected when only_current_line and
+      --     -- autoSetHints both are true.
+      --     only_current_line_autocmd = "CursorHold",
+      --     -- whether to show parameter hints with the inlay hints or not
+      --     show_parameter_hints = true,
+      --     -- whether to show variable name before type hints with the inlay hints or not
+      --     show_variable_name = false,
+      --     -- prefix for parameter hints
+      --     parameter_hints_prefix = "<- ",
+      --     -- prefix for all the other hints (type, chaining)
+      --     other_hints_prefix = "=> ",
+      --     -- whether to align to the length of the longest line in the file
+      --     max_len_align = false,
+      --     -- padding from the left if max_len_align is true
+      --     max_len_align_padding = 1,
+      --     -- whether to align to the extreme right or not
+      --     right_align = false,
+      --     -- padding from the right if right_align is true
+      --     right_align_padding = 7,
+      --     -- The color of the hints
+      --     highlight = "Comment"
+      --   },
+      --   ast = {
+      --     role_icons = {
+      --       type = "",
+      --       declaration = "",
+      --       expression = "",
+      --       specifier = "",
+      --       statement = "",
+      --       ["template argument"] = ""
+      --     },
+      --     kind_icons = {
+      --       Compound = "",
+      --       Recovery = "",
+      --       TranslationUnit = "",
+      --       PackExpansion = "",
+      --       TemplateTypeParm = "",
+      --       TemplateTemplateParm = "",
+      --       TemplateParamObject = ""
+      --     },
+      --     highlights = {
+      --       detail = "Comment"
+      --     }
+      --   }
+      -- }
 
       lspconfig.grammar_guard.setup(
         {
@@ -250,12 +308,28 @@ return {
         }
       )
 
-      lspconfig.cmake.setup {
-        on_attach = custom_attach,
-        flags = {
-          debounce_text_changes = 150
+      if not configs.neocmake then
+        configs.neocmake = {
+          default_config = {
+            cmd = { "neocmakelsp", "--stdio" },
+            filetypes = { "cmake" },
+            root_dir = function(fname)
+              return lspconfig.util.find_git_ancestor(fname)
+            end,
+            single_file_support = true,       -- suggested
+            on_attach = custom_attach             -- on_attach is the on_attach function you defined
+          }
         }
-      }
+        lspconfig.neocmake.setup({})
+      end
+
+      -- lspconfig.cmake.setup {
+      --   on_attach = custom_attach,
+      --   flags = {
+      --     debounce_text_changes = 150
+      --   }
+      -- }
+
       lspconfig.bashls.setup {
         on_attach = custom_attach,
         flags = {
@@ -275,6 +349,35 @@ return {
             }
           }
         }
+      }
+
+
+      if not configs.pylance then
+      configs.pylance = {
+          default_config = {
+            cmd = { "neocmakelsp", "--stdio" },
+            filetypes = { "cmake" },
+            root_dir = function(fname)
+              return lspconfig.util.find_git_ancestor(fname)
+            end,
+            single_file_support = true,       -- suggested
+            on_attach = custom_attach             -- on_attach is the on_attach function you defined
+          },
+      }
+      end
+
+      lspconfig.pylance.setup{
+        settings = {
+          python = {
+            analysis = {
+              inlayHints = {
+                variableTypes = true,
+                functionReturnTypes = true,
+                callArgumentNames = true,
+              },
+            },
+          },
+        },
       }
 
       -- lspconfig.jedi_language_server.setup{}
@@ -571,23 +674,19 @@ return {
 
       -- EXPERIMENTAL
 
-      --lspconfig.ccls.setup{
-      --on_attach=require'completion'.on_attach,
-      --init_options = {
-      --highlight = {
-      --lsRanges = true;
-      --}
-      --},
-      --capabilities = {
-      --textDocument = {
-      --completion = {
-      --completionItem = {
-      --snippetSupport = true
-      --}
-      --}
-      --}
-      --},
-      --}
+      -- lacks inlay hints feature
+      -- lspconfig.ccls.setup {
+      --   on_attach = custom_attach,
+      --   capabilities = {
+      --     textDocument = {
+      --       completion = {
+      --         completionItem = {
+      --           snippetSupport = true
+      --         }
+      --       }
+      --     }
+      --   },
+      -- }
     end
   }
 }

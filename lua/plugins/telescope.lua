@@ -19,7 +19,8 @@ return {
           i = {["<c-s-t>"] = trouble.open_with_trouble},
           n = {["<c-s-t>"] = trouble.open_with_trouble}
         }
-      }
+      },
+      sorting_strategy = "descending"
     }
     -- telescope.load_extension('fzf')
     -- {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }

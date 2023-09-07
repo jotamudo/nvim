@@ -30,6 +30,7 @@ local o_options = {
   termguicolors = true,
   wildmenu = true,
   colorcolumn = "80",
+  number = true,
   -- 7 lines up and down of limit to the cursor
   so = 7,
   cursorcolumn = true,
