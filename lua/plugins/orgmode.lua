@@ -1,5 +1,6 @@
 return {
   "nvim-orgmode/orgmode",
+  enabled = false,
   dependencies = {
     "akinsho/org-bullets.nvim",
     "lukas-reineke/headlines.nvim", -- general highlighting of headlines
@@ -8,6 +9,6 @@ return {
   config = function()
     local org = require('orgmode')
     org.setup();
-    org.setup_ts_grammar()
+    -- org.setup_ts_grammar()
   end
 }

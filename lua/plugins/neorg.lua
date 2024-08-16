@@ -1,3 +1,4 @@
 return {
-  "nvim-neorg/neorg"
+  "nvim-neorg/neorg",
+  enabled = false
 }

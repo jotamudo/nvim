@@ -8,5 +8,6 @@ return {
   { '<leader>dlp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end },
   { '<leader>dr', function() require('dap').repl.open() end, },
   { '<leader>dl', function() require('dap').run_last() end },
+  { '<leader>dt', function() require('dapui').toggle() end },
   { '<leader>dps', function() require('dap-python').debug_selection() end, mode = "v" }
 }

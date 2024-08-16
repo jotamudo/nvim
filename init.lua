@@ -59,6 +59,7 @@ local o_options = {
   listchars = "tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»",
   hidden = true,
   guifont = "Iosevka Nerd Font Mono:h14",
+  exrc = true, -- allow local config files
   -- lazyredraw = true, -- don't update screen when doing macros
 }
 

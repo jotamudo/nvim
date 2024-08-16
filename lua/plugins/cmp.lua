@@ -19,7 +19,9 @@ return {
     "delphinus/cmp-ctags",
     "ray-x/cmp-treesitter",
     "hrsh7th/cmp-nvim-lsp-signature-help",
-    "onsails/lspkind-nvim"
+    "onsails/lspkind-nvim",
+    "saadparwaiz1/cmp_luasnip",
+    "jmbuhr/otter.nvim"
   },
   config = function ()
     vim.o.completeopt = 'menu,menuone,noselect'
@@ -40,7 +42,7 @@ return {
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-          require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+          luasnip.lsp_expand(args.body) -- For `luasnip` users.
         end,
       },
       mapping = cmp.mapping.preset.insert({
@@ -48,7 +50,7 @@ return {
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        ['<C-y>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
@@ -79,6 +81,7 @@ return {
         { name = 'buffer' },
         { name = 'path' },
         { name = 'treesitter' },
+        { name = 'otter' },
         { name = 'emoji' },
         { name = 'spell' },
         { name = 'calc' },
@@ -103,7 +106,7 @@ return {
             -- Get the full snippet (and only keep first line)
             local word = entry:get_insert_text()
             if entry.completion_item.insertTextFormat == types.lsp.InsertTextFormat.Snippet then
-                    word = vim.lsp.util.parse_snippet(word)
+                    word = word
             end
             word = str.oneline(word)
 

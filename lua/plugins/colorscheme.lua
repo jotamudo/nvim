@@ -1,7 +1,7 @@
 return {
   {
     "ellisonleao/gruvbox.nvim",
-    priority = 70,
+    priority = 1001,
     config = function()
       -- Colorscheme
       vim.cmd([[

@@ -1,7 +1,10 @@
 return {
   'nvim-lualine/lualine.nvim',
   lazy = false,
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = {
+    'nvim-tree/nvim-web-devicons',
+    'SmiteshP/nvim-navic'
+  },
   config = function()
     -- Eviline config for lualine
     -- Author: shadmansaleh
@@ -184,6 +187,10 @@ return {
       end,
       icon = ' LSP:',
       color = { fg = '#ffffff', gui = 'bold' },
+    }
+    ins_left {
+      'navic',
+      color_correction = 'dyanimc'
     }
 
     -- Add components to right sections

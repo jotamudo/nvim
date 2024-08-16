@@ -189,28 +189,54 @@ require("clangd_extensions").setup {
       }
   }
 }
+_set_ltex_lang = function(lang)
+  local clients = vim.lsp.get_clients({ buffer = 0 })
+  for _, client in ipairs(clients) do
+    if client.name == "ltex" then
+      utils.notify("Set ltex-ls lang to " .. lang, vim.log.levels.INFO, "utils.functions")
+      client.config.settings.ltex.language = lang
+      vim.lsp.buf_notify(0, "workspace/didChangeConfiguration", { settings = client.config.settings })
+      return
+    end
+  end
+end
 
-lspconfig.grammar_guard.setup({
-  cmd = { env_vars.HOME .. '/.local/share/nvim/lsp_servers/ltex/ltex-ls/bin/ltex-ls' }, -- add this if you install ltex-ls yourself
+
+vim.api.nvim_create_user_command(
+  "LtexLang",
+  "lua _set_ltex_lang(<q-args>)",
+  { nargs = 1, desc = "Set ltex-ls language" }
+)
+
+lspconfig.ltex.setup({
   settings = {
     ltex = {
-      enabled = { "latex", "tex", "bib", "markdown", "pandoc", "vimwiki" },
-      language = {"en", "fr"},
-      diagnosticSeverity = "information",
-      setenceCacheSize = 2000,
-      additionalRules = {
-        enablePickyRules = true,
-        motherTongue = "en",
-      },
-      trace = { server = "verbose" },
-      dictionary = {},
-      disabledRules = {},
-      hiddenFalsePositives = {},
-      completionEnabled = true,
-    },
-  },
+      language = 'en-US'
+    }
+  }
 })
 
+-- lspconfig.grammar_guard.setup({
+--   cmd = { env_vars.HOME .. '/.local/share/nvim/lsp_servers/ltex/ltex-ls/bin/ltex-ls' }, -- add this if you install ltex-ls yourself
+--   settings = {
+--     ltex = {
+--       enabled = { "latex", "tex", "bib", "markdown", "pandoc", "vimwiki" },
+--       language = {"en", "fr"},
+--       diagnosticSeverity = "information",
+--       setenceCacheSize = 2000,
+--       additionalRules = {
+--         enablePickyRules = true,
+--         motherTongue = "en",
+--       },
+--       trace = { server = "verbose" },
+--       dictionary = {},
+--       disabledRules = {},
+--       hiddenFalsePositives = {},
+--       completionEnabled = true,
+--     },
+--   },
+-- })
+--
 lspconfig.cmake.setup{
   on_attach=custom_attach,
   flags = {

@@ -1,4 +1,4 @@
 return {
   {"tpope/vim-fugitive"},
-  {"samoshkin/vim-mergetool"}
+  -- {"samoshkin/vim-mergetool"}
 }

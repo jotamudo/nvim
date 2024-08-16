@@ -1,5 +1,9 @@
 return {
   "folke/noice.nvim",
+  lazy = false,
+  keys = {
+    {"<leader>nd", ":NoiceDismiss<CR>", {silent = true, desc = "[N]oice [D]ismiss"}},
+  },
   opts = {
     lsp = {
       -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -9,6 +13,7 @@ return {
         ["cmp.entry.get_documentation"] = true
       }
     },
+    notify = { view = "mini" },
     -- you can enable a preset for easier configuration
     presets = {
       bottom_search = true, -- use a classic bottom cmdline for search
@@ -24,6 +29,8 @@ return {
     -- OPTIONAL:
     --   `nvim-notify` is only needed, if you want to use the notification view.
     --   If not available, we use `mini` as the fallback
-    "rcarriga/nvim-notify"
+    "rcarriga/nvim-notify",
+    "echasnovski/mini.notify",
+
   }
 }
