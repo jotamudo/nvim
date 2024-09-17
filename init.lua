@@ -36,7 +36,7 @@ local o_options = {
   cursorcolumn = true,
   cursorline = true,
   ruler = true,
-  cmdheight = 1,
+  cmdheight = 0,
   backspace = "eol,start,indent",
   whichwrap = "b,s,<,>,h,l",
   ai = true,
@@ -61,6 +61,7 @@ local o_options = {
   guifont = "Iosevka Nerd Font Mono:h14",
   exrc = true, -- allow local config files
   -- lazyredraw = true, -- don't update screen when doing macros
+  conceallevel = 2 -- needed for obsidian
 }
 
 for name, value in pairs(o_options) do
