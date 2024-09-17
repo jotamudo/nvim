@@ -11,9 +11,14 @@ return {
   opts = {
     dir = "~/Documents/Brain",  -- no need to call 'vim.fn.expand' here
     templates = {
-          subdir = "Templates",
-          date_format = "%Y-%m-%d",
-          time_format = "%H:%M"
+      subdir = "Templates",
+      date_format = "%Y%m%d%H%M%S",
+      time_format = "%H:%M",
+      substitutions = {
+        week = function ()
+          return os.date("%Y%m", os.time())
+        end
+      }
     },
   },
 
