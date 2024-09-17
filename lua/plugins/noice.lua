@@ -1,6 +1,6 @@
 return {
   "folke/noice.nvim",
-  lazy = false,
+  event = "VeryLazy",
   keys = {
     {"<leader>nd", ":NoiceDismiss<CR>", {silent = true, desc = "[N]oice [D]ismiss"}},
   },
@@ -30,7 +30,7 @@ return {
     --   `nvim-notify` is only needed, if you want to use the notification view.
     --   If not available, we use `mini` as the fallback
     "rcarriga/nvim-notify",
-    "echasnovski/mini.notify",
+    -- "echasnovski/mini.notify",
 
   }
 }
