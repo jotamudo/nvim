@@ -21,4 +21,9 @@ require("lazy").setup({
     root = vim.fn.stdpath("data") .. "/lazy-rocks",
     server = "https://nvim-neorocks.github.io/rocks-binaries/",
   },
+  dev = {
+    path = "~/.config/nvim/plugins",
+    ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
+    patterns = {"jotamudo"}, -- For example {"folke"}
+  }
 })
