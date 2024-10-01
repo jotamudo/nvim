@@ -70,10 +70,35 @@ return {
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
       },
       {
-        'nvim-java/nvim-java',
+        -- NOTE: modified version of nvim-java, I need to sleep
+        'jotamudo/nvim-java',
+        dev = true,
         config = function ()
           require('java').setup()
-        end
+        end,
+        	dependencies = {
+            'nvim-java/lua-async-await',
+            'nvim-java/nvim-java-refactor',
+            'nvim-java/nvim-java-core',
+            'nvim-java/nvim-java-test',
+            'nvim-java/nvim-java-dap',
+            'MunifTanjim/nui.nvim',
+            'neovim/nvim-lspconfig',
+            'mfussenegger/nvim-dap',
+            {
+              'JavaHello/spring-boot.nvim',
+              commit = '218c0c26c14d99feca778e4d13f5ec3e8b1b60f0',
+            },
+            {
+              'williamboman/mason.nvim',
+              opts = {
+                registries = {
+                  'github:nvim-java/mason-registry',
+                  'github:mason-org/mason-registry',
+                },
+              },
+            },
+          },
       },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
