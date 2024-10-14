@@ -1,5 +1,5 @@
 return {
-  "feline-nvim/feline.nvim",
+  "freddiehaddad/feline.nvim",
   enabled = false,
   lazy = false,
   dependencies = {
@@ -246,6 +246,8 @@ return {
       components = components,
       theme = colors
     }
+    feline.winbar.setup()       -- to use winbar
+    feline.statuscolumn.setup() -- to use statuscolumn
 end
 }
 
