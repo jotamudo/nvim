@@ -430,10 +430,10 @@ return {
       local omnisharp_bin = "/usr/bin/omnisharp"
 
       lspconfig.omnisharp.setup {
-        cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
-        flags = {
-          debounce_text_changes = 150
-        }
+        -- cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
+        -- flags = {
+        --   debounce_text_changes = 150
+        -- }
       }
 
       -- Web
@@ -651,6 +651,11 @@ return {
       lspconfig.jdtls.setup({})
       lspconfig.groovyls.setup({
         cmd = { "groovy-language-server" }
+      })
+
+      lspconfig.kotlin_language_server.setup({
+        on_attach = custom_attach,
+        capabilities = capabilities
       })
 
       -- EXPERIMENTAL
