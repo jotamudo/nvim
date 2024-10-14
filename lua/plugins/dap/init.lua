@@ -8,7 +8,7 @@ return {
 				config = true,
 				dependencies = {"nvim-neotest/nvim-nio"}
 			},
-			"rcarriga/cmp-dap",
+			-- "rcarriga/cmp-dap",
 			"jay-babu/mason-nvim-dap.nvim",
 			"williamboman/mason.nvim",
 		},
