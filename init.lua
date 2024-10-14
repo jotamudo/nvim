@@ -1,6 +1,4 @@
 -- Ensures packer gets installed
-local opt = vim.opt
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system(
@@ -66,7 +64,7 @@ local o_options = {
 
 for name, value in pairs(o_options) do
   vim.o[name] = value
-  opt[name] = value
+  vim.opt[name] = value
 end
 
 -- comands that didn't work with the above
