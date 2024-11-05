@@ -1,9 +1,9 @@
 return {
-  "hrsh7th/nvim-cmp",
+  "iguanacucumber/magazine.nvim",
   event = {"InsertEnter", "CmdlineEnter"},
   keys = {":", "/"},
   lazy = false,
-  enabled = false,
+  -- enabled = false,
   dependencies = {
     "hrsh7th/cmp-nvim-lsp",
     "hrsh7th/cmp-buffer",
@@ -40,6 +40,9 @@ return {
     local luasnip = require("luasnip")
 
     cmp.setup({
+      performance = {
+        debounce = 0
+      },
       snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)

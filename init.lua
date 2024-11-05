@@ -76,13 +76,14 @@ vim.cmd([[
 ]])
 
 -- Setting up tabs and keeping my sanity on Makefiles
-vim.cmd([[
-set expandtab
-set shiftwidth=2
-set tabstop=8
-set smarttab
-autocmd FileType make set nosmarttab
-]])
+-- vim.cmd([[
+-- set expandtab
+-- set shiftwidth=2
+-- set tabstop=8
+-- set smarttab
+-- autocmd FileType make set nosmarttab
+-- ]])
+
 -- Folding
 vim.cmd(
   [[
@@ -97,13 +98,6 @@ vim.cmd([[
   set undodir=~/.config/nvim/undodir
   set undofile
 ]])
--- TODO: consider using the following
--- NOTE: probably won't support windows kek
--- if has('win32') || has ('win64')
---     let $VIMHOME = $VIM."/vimfiles"
--- else
---     let $VIMHOME = $HOME."/.vim"
--- endif
 
 -- Exception for Makefiles
 vim.cmd([[autocmd FileType make set nosmarttab]])

@@ -1,7 +1,9 @@
 return {
   'nvim-lualine/lualine.nvim',
+  priority = 1000,
   lazy = false,
   dependencies = {
+    'ellisonleao/gruvbox.nvim',
     'nvim-tree/nvim-web-devicons',
     'SmiteshP/nvim-navic'
   },
@@ -10,6 +12,8 @@ return {
     -- Author: shadmansaleh
     -- Credit: glepnir
     local lualine = require('lualine')
+    vim.api.nvim_set_hl(0, "StatusLine", {reverse = false})
+    vim.api.nvim_set_hl(0, "StatusLineNC", {reverse = false})
 
     -- Color table for highlights
     -- stylua: ignore
@@ -52,13 +56,14 @@ return {
         -- Disable sections and component separators
         component_separators = '',
         section_separators = '',
-        theme = {
-          -- We are going to use lualine_c an lualine_x as left and
-          -- right section. Both are highlighted by c theme .  So we
-          -- are just setting default looks o statusline
-          normal = { c = { fg = colors.fg, bg = colors.bg } },
-          inactive = { c = { fg = colors.fg, bg = colors.bg } },
-        },
+        -- theme = {
+        --   -- We are going to use lualine_c an lualine_x as left and
+        --   -- right section. Both are highlighted by c theme .  So we
+        --   -- are just setting default looks o statusline
+        --   normal = { c = { fg = colors.fg, bg = colors.bg } },
+        --   inactive = { c = { fg = colors.fg, bg = colors.bg } },
+        -- },
+        theme = "gruvbox",
       },
       sections = {
         -- these are to remove the defaults

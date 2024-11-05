@@ -1,9 +1,54 @@
+local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require('cmp_nvim_lsp').default_capabilities() or {}
+      )
+
+local custom_attach = function(client, bufnr)
+  -- inlay hints for clangd
+
+  -- if client.server_capabilities.inlayHintProvider then
+  --   vim.lsp.inlay_hints(0, true)
+  -- end
+  if client.server_capabilities.inlayHintProvider then
+    vim.g.inlay_hints_visible = true
+    vim.lsp.inlay_hint.enable()
+  else
+    -- print("no inlay hints available")
+  end
+
+  if client.server_capabilities.documentSymbolProvider then
+      require("nvim-navic").attach(client, bufnr)
+  end
+
+  -- disable highlight on big files
+  local buf_name = vim.api.nvim_buf_get_name(bufnr)
+  local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+  if file_size > 256 * 1024 then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
+
+  -- if client.name == "pyright" then
+  --   client.server_capabilities.completionProvider = false
+  -- end
+
+  if client.name == "typescript-tools" and vim.bo.filetype == "vue" then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
+end
+
+
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+
 return {
   { "williamboman/mason-lspconfig.nvim",
+  event = "BufReadPre",
     config = true,
   },
   {
     url = "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    event = {"BufReadPre"},
     dependencies = "neovim/nvim-lspconfig",
     config = function ()
       vim.diagnostic.config({ virtual_text = false })
@@ -36,6 +81,7 @@ return {
             -- Load the xmake types when opening file named `xmake.lua`
             -- Needs `LelouchHe/xmake-luals-addon` to be installed
             { path = "xmake-luals-addon/library", files = { "xmake.lua" } },
+            { plugins = { "nvim-dap-ui" }, types = true },
           },
           -- always enable unless `vim.g.lazydev_enabled = false`
           -- This is the default
@@ -61,7 +107,53 @@ return {
       },
       {
         'mrcjkb/rustaceanvim',
-        version = '^5', -- Recommended
+        -- version = '^5', -- Recommended
+        init = function ()
+          local rust_capabilities = vim.tbl_extend(
+            "force",
+            vim.deepcopy(capabilities),
+              {
+                textDocument = {
+                    completion = {
+                        completionItem = {
+                            snippetSupport = false,
+                        }
+                    }
+                },
+                experimental = {
+                  hoverActions = true,
+                  colorDiagnosticOutput = true,
+                  hoverRange = true,
+                  serverStatusNotification = true,
+                  snippetTextEdit = false,
+                  codeActionGroup = true,
+                  ssr = true,
+                }
+              }
+          )
+          vim.g.rustaceanvim = {
+            server = {
+              capabilities = rust_capabilities,
+              on_attach = function (client, bufnr)
+                if client.server_capabilities.inlayHintProvider then
+                  vim.g.inlay_hints_visible = true
+                  vim.lsp.inlay_hint.enable()
+                else
+                  vim.print("no inlay hints available")
+                end
+                -- disable highlight on big files
+                local buf_name = vim.api.nvim_buf_get_name(bufnr)
+                local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+
+                if file_size > 256 * 1024 then
+                  client.server_capabilities.semanticTokensProvider = nil
+                end
+              end
+            }
+          }
+        end,
+
+        branch = 'master',
         lazy = false, -- This plugin is already lazy
       },
       {"SmiteshP/nvim-navic"},
@@ -73,6 +165,7 @@ return {
         -- NOTE: modified version of nvim-java, I need to sleep
         'jotamudo/nvim-java',
         dev = true,
+        ft = "java",
         config = function ()
           require('java').setup()
         end,
@@ -100,10 +193,57 @@ return {
             },
           },
       },
+      {
+        'nvim-flutter/flutter-tools.nvim',
+        lazy = false,
+        dependencies = {
+          'nvim-lua/plenary.nvim',
+          'stevearc/dressing.nvim'
+        },
+        opts = {
+          debugger = {
+            enabled = true,
+            run_via_dap = true,
+            register_configurations = function(_)
+             require("dap").adapters.dart = {
+                type = "executable",
+                command = vim.fn.stdpath("data") .. "/mason/bin/dart-debug-adapter",
+                args = {"flutter"}
+              }
+              require("dap").configurations.dart = {
+                {
+                  type = "dart",
+                  request = "launch",
+                  name = "Launch Flutter Program",
+                  -- The nvim-dap plugin populates this variable with the filename of the current buffer
+                  program = "${file}",
+                  -- The nvim-dap plugin populates this variable with the editor's current working directory
+                  cwd = "${workspaceFolder}",
+                  -- This gets forwarded to the Flutter CLI tool, substitute `linux` for whatever device you wish to launch
+                  toolArgs = {"-d", "linux"}
+                }
+              }
+              require("dap.ext.vscode").load_launchjs()
+            end,
+          },
+          lsp = {
+            color = {
+              enabled = true,
+              background = true,
+              background_color = { r = 19, g = 17, b = 24},
+              foreground = false,
+              virtual_text = true,
+              virtual_text_str = '■',
+            },
+            on_attach = custom_attach,
+            capabilities = capabilities
+          }
+        }
+      },
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "jubnzv/virtual-types.nvim",
-      -- "hrsh7th/cmp-nvim-lsp"
+      "hrsh7th/cmp-nvim-lsp"
     },
     keys = require("plugins.lsp.mappings"),
     opts = {
@@ -229,45 +369,13 @@ return {
 
       --Enable (broadcasting) snippet capability for completion
       -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = {"documentation", "detail", "additionalTextEdits"}
       }
 
       -- See uses
-      local custom_attach = function(client, bufnr)
-        -- inlay hints for clangd
-
-        -- if client.server_capabilities.inlayHintProvider then
-        --   vim.lsp.inlay_hints(0, true)
-        -- end
-        if client.server_capabilities.inlayHintProvider then
-          vim.g.inlay_hints_visible = true
-          vim.lsp.inlay_hint.enable()
-        else
-          -- print("no inlay hints available")
-        end
-
-        if client.server_capabilities.documentSymbolProvider then
-            require("nvim-navic").attach(client, bufnr)
-        end
-
-        -- disable highlight on big files
-        local buf_name = vim.api.nvim_buf_get_name(bufnr)
-        local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
-        if file_size > 256 * 1024 then
-          client.server_capabilities.semanticTokensProvider = nil
-        end
-
-        -- if client.name == "pyright" then
-        --   client.server_capabilities.completionProvider = false
-        -- end
-
-        if client.name == "typescript-tools" and vim.bo.filetype == "vue" then
-          client.server_capabilities.semanticTokensProvider = nil
-        end
-      end
 
       local clangd_capabilities = capabilities
       clangd_capabilities = {
@@ -657,6 +765,7 @@ return {
         on_attach = custom_attach,
         capabilities = capabilities
       })
+
 
       -- EXPERIMENTAL
 

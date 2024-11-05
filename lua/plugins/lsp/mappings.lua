@@ -16,5 +16,6 @@ return {
   {'<leader>D', function() vim.lsp.buf.type_definition() end},
   {'<leader>rn', function() vim.lsp.buf.rename() end},
   {'<leader>ga', function() vim.lsp.buf.code_action() end},
+  {'<leader>gf', function() vim.lsp.buf.format() end},
   {'gr', function() vim.lsp.buf.references() end},
 }
