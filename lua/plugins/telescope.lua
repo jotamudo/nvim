@@ -2,6 +2,7 @@ return {
   "nvim-telescope/telescope.nvim",
   keys = require("mappings/plugins/telescope"),
   branch = "master",
+  cmd = 'Telescope',
   dependencies = {
     "nvim-telescope/telescope-media-files.nvim",
     "nvim-telescope/telescope-symbols.nvim",
