@@ -2,8 +2,8 @@
   -- See `:help vim.lsp.*` for documentation on any of the below functions
 return {
   {'<leader>o', function() vim.diagnostic.open_float() end},
-  {'[e', function() vim.diagnostic.goto_prev() end},
-  {']e', function() vim.diagnostic.goto_next() end},
+  {'[e', function() vim.diagnostic.jump({diagnostic = vim.diagnostic.get_prev()}) end},
+  {']e', function() vim.diagnostic.jump({diagnostic = vim.diagnostic.get_next()}) end},
   {'<leader>q', function() vim.diagnostic.setloclist() end},
   {'gD', function() vim.lsp.buf.declaration() end},
   {'gd', function() vim.lsp.buf.definition() end},
@@ -16,6 +16,7 @@ return {
   {'<leader>D', function() vim.lsp.buf.type_definition() end},
   {'<leader>rn', function() vim.lsp.buf.rename() end},
   {'<leader>ga', function() vim.lsp.buf.code_action() end},
+  {'<leader>gl', function() vim.lsp.codelens.run() end},
   {'<leader>gf', function() vim.lsp.buf.format() end},
   {'gr', function() vim.lsp.buf.references() end},
 }
