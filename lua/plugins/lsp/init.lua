@@ -204,6 +204,7 @@ return {
           debugger = {
             enabled = true,
             run_via_dap = true,
+            fvm = true,
             register_configurations = function(_)
              require("dap").adapters.dart = {
                 type = "executable",
@@ -227,6 +228,7 @@ return {
             end,
           },
           lsp = {
+            cmd = {"fvm", "dart", "language-server", "--protocol=lsp"},
             color = {
               enabled = true,
               background = true,
