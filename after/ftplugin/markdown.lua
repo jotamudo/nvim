@@ -1,1 +1,1 @@
-require("otter").activate({"python"}, true, true, nil)
+require('otter').activate({ 'python' }, true, true, nil)

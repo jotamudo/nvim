@@ -1,5 +1,5 @@
 return {
-  "folke/todo-comments.nvim",
-  -- requires = "nvim-lua/plenary.nvim",
-  config = true
+    'folke/todo-comments.nvim',
+    -- requires = "nvim-lua/plenary.nvim",
+    config = true,
 }

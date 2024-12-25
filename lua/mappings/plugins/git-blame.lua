@@ -1,1 +1,1 @@
-return { "<leader>gb", "<cmd>GitBlameToggle<CR>" }
+return { '<leader>gb', '<cmd>GitBlameToggle<CR>' }

@@ -1,3 +1,3 @@
 return {
-  "pwntester/octo.nvim"
+    'pwntester/octo.nvim',
 }

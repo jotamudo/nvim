@@ -140,11 +140,13 @@ return {
             },
             {
                 'mrcjkb/rustaceanvim',
-								dependencies = 'saghen/blink.cmp',
+                dependencies = 'saghen/blink.cmp',
                 -- version = '^5', -- Recommended
                 init = function()
-                    local rust_capabilities =
-                        vim.tbl_extend('force', vim.deepcopy(get_capabilities()), {
+                    local rust_capabilities = vim.tbl_extend(
+                        'force',
+                        vim.deepcopy(get_capabilities()),
+                        {
                             textDocument = {
                                 completion = {
                                     completionItem = {
@@ -161,7 +163,8 @@ return {
                                 codeActionGroup = true,
                                 ssr = true,
                             },
-                        })
+                        }
+                    )
                     vim.g.rustaceanvim = {
                         server = {
                             capabilities = rust_capabilities,

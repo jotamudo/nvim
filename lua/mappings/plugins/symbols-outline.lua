@@ -1,3 +1,7 @@
 return {
-  {"<leader>so", ":SymbolsOutline<CR>", {silent = true, desc = "[S]ymbols [O]utline"}},
+    {
+        '<leader>so',
+        ':SymbolsOutline<CR>',
+        { silent = true, desc = '[S]ymbols [O]utline' },
+    },
 }

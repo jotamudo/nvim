@@ -1,3 +1,3 @@
 return {
-  "Iron-E/nvim-libmodal"
+    'Iron-E/nvim-libmodal',
 }

@@ -1,5 +1,5 @@
 local cmp = require('cmp')
-local set = vim.keymap.set-- use core keymapping function
+local set = vim.keymap.set -- use core keymapping function
 
 -- nnoremap { '<C-b>',     function() cmp.mapping.scroll_docs(-4) end           }
 -- nnoremap { '<C-f>',     function() cmp.mapping.scroll_docs(4) end            }

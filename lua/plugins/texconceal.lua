@@ -1,8 +1,8 @@
 return {
-  "KeitaNakamura/tex-conceal.vim",
-  ft = "tex",
-  config = function()
-    vim.cmd([[
+    'KeitaNakamura/tex-conceal.vim',
+    ft = 'tex',
+    config = function()
+        vim.cmd([[
       let g:vimtex_fold_enabled = 1
       let g:vimtex_view_general_viewer = 'zathura'
       let g:vimtex_view_method = 'zathura'
@@ -15,5 +15,5 @@ return {
       let g:tex_subscripts= "[0-9aehijklmnoprstuvx,+-/().]"
       let g:tex_conceal_frac=1
     ]])
-  end
+    end,
 }

@@ -1,4 +1,4 @@
 return {
-  "rcarriga/nvim-notify",
-  config = true
+    'rcarriga/nvim-notify',
+    config = true,
 }

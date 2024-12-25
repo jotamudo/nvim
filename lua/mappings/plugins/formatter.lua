@@ -1,1 +1,1 @@
-return {"<leader>bf", "<cmd>Format<cr>"}
+return { '<leader>bf', '<cmd>Format<cr>' }

@@ -1,11 +1,10 @@
 return {
-  "oberblastmeister/neuron.nvim",
-  dependencies = "nvim-lua/popup.nvim",
-  enabled = false,
-  config = function()
-    local setup_mappings = function()
-      vim.cmd(
-        [[
+    'oberblastmeister/neuron.nvim',
+    dependencies = 'nvim-lua/popup.nvim',
+    enabled = false,
+    config = function()
+        local setup_mappings = function()
+            vim.cmd([[
       " click enter on my_link or my_link to enter it
       nnoremap <buffer> <CR> <cmd>lua require'neuron'.enter_link()<CR>
       " create a new note
@@ -26,16 +25,15 @@ return {
       nnoremap <buffer> gz] <cmd>lua require'neuron'.goto_next_extmark()<CR>
       " go to previous
       nnoremap <buffer> gz[ <cmd>lua require'neuron'.goto_prev_extmark()<CR>
-    ]]
-      )
-    end
+    ]])
+        end
 
-    require("neuron").setup {
-      virtual_titles = true,
-      mappings = true,
-      run = nil, -- function to run when in neuron dir
-      neuron_dir = "~/neuron", -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
-      leader = "gz" -- the leader key to for all mappings, remember with 'go zettel'
-    }
-  end
+        require('neuron').setup({
+            virtual_titles = true,
+            mappings = true,
+            run = nil, -- function to run when in neuron dir
+            neuron_dir = '~/neuron', -- the directory of all of your notes, expanded by default (currently supports only one directory for notes, find a way to detect neuron.dhall to use any directory)
+            leader = 'gz', -- the leader key to for all mappings, remember with 'go zettel'
+        })
+    end,
 }

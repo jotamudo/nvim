@@ -1,3 +1,3 @@
 return {
-  "edluffy/hologram.nvim"
+    'edluffy/hologram.nvim',
 }

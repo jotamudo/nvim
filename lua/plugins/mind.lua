@@ -1,5 +1,5 @@
 return {
-  "phaazon/mind.nvim",
-  dependencies = {"nvim-lua/plenary.nvim"},
-  config = true
+    'phaazon/mind.nvim',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = true,
 }

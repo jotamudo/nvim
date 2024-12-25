@@ -1,4 +1,4 @@
 return {
-  "jbyuki/nabla.nvim",
-  keys = require("mappings.plugins.nabla")
+    'jbyuki/nabla.nvim',
+    keys = require('mappings.plugins.nabla'),
 }
