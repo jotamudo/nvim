@@ -243,7 +243,7 @@ return {
                     'stevearc/dressing.nvim',
                 },
                 opts = {
-                    fvm = true,
+                    fvm = os.execute('fvm') ~= nil,
                     debugger = {
                         enabled = true,
                         run_via_dap = true,
