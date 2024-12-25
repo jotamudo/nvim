@@ -17,7 +17,7 @@ return {
 		config = function()
 			local mason_null_ls = require("mason-null-ls")
 			mason_null_ls.setup({
-        ensure_installed = { 'stylua', 'clang_format', 'yamlfix', 'yamlfmt'},
+        ensure_installed = { 'stylua', 'clang_format', 'yamlfix', 'yamlfmt', 'eslint'},
 				automatic_installation = false,
 				automatic_setup = true, -- Recommended, but optional
 				handlers = {
