@@ -18,7 +18,6 @@ return {
         dependencies = {
             'saghen/blink.compat',
             'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-buffer',
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-emoji',
@@ -61,6 +60,16 @@ return {
                     'spell',
                 },
                 providers = {
+                    buffer = {
+                        name = 'buffer',
+                        module = 'blink.cmp.sources.buffer',
+                        enabled = function ()
+                            if vim.b.filetype ~= 'tex' then
+                                return true
+                            end
+                            return false
+                        end,
+                    },
                     calc = {
                         name = 'calc',
                         module = 'blink.compat.source',
@@ -109,11 +118,17 @@ return {
             -- experimental auto-brackets support
             completion = {
                 accept = { auto_brackets = { enabled = true } },
-                ghost_text = {
-                    enabled = true,
-                },
+                -- ghost_text = {
+                --     enabled = true,
+                -- },
                 menu = { border = 'single' },
                 documentation = { window = { border = 'single' } },
+                list = {
+                    selection = {
+                        preselect = false,
+                        auto_insert = true,
+                    }
+                }
             },
 
             -- experimental signature help support
@@ -125,10 +140,8 @@ return {
                 preset = 'default',
                 ['<C-j>'] = { 'snippet_forward', 'fallback' },
                 ['<C-k>'] = { 'snippet_backward', 'fallback' },
-                cmdline = {
-                    preset = 'enter',
-                },
             },
         },
+         opts_extend = { "sources.default" },
     },
 }
