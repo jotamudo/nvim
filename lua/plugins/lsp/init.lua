@@ -1,5 +1,4 @@
--- local capabilities = vim.tbl_deep_extend(
---     'force',
+-- local capabilities = vim.tbl_deep_extend( 'force',
 --     {},
 --     vim.lsp.protocol.make_client_capabilities(),
 --     require('cmp_nvim_lsp').default_capabilities() or {}
@@ -240,13 +239,14 @@ return {
             -- },
             {
                 'nvim-flutter/flutter-tools.nvim',
-                lazy = false,
+                -- lazy = false,
+                ft = { 'dart', 'yaml' },
                 dependencies = {
                     'nvim-lua/plenary.nvim',
                     'stevearc/dressing.nvim',
                 },
                 opts = {
-                    fvm = os.execute('fvm') ~= nil,
+                    fvm = os.execute('fvm > /dev/null') ~= nil,
                     debugger = {
                         enabled = true,
                         run_via_dap = true,
@@ -270,7 +270,6 @@ return {
                                     toolArgs = { '-d', 'linux' },
                                 },
                             }
-                            require('dap.ext.vscode').load_launchjs()
                         end,
                     },
                     lsp = {
@@ -570,6 +569,7 @@ return {
                                 functionReturnTypes = true,
                                 callArgumentNames = true,
                             },
+                            extraPaths = { 'venv', '.venv' }
                         },
                     },
                 },
@@ -625,6 +625,14 @@ return {
                 -- }
             })
 
+            local sourcekit_caps = vim.deepcopy(capabilities, true)
+            sourcekit_caps.workspace.didChangeWatchedFiles.dynamicRegistration =
+                true
+            lspconfig.sourcekit.setup({
+                filetypes = { 'swift', 'objc', 'objcpp' },
+                on_attach = custom_attach,
+                capabilities = sourcekit_caps,
+            })
             -- Web
             lspconfig.html.setup({
                 on_attach = custom_attach,
@@ -867,6 +875,23 @@ return {
             lspconfig.kotlin_language_server.setup({
                 on_attach = custom_attach,
                 capabilities = capabilities,
+            })
+
+            lspconfig.matlab_ls.setup({
+                on_attach = custom_attach,
+                filetypes = { 'matlab' },
+                capabilities = capabilities,
+                settings = {
+                    -- don't know why it has to be in upper-case '-'
+                    MATLAB = {
+                        capabilities = capabilities,
+                        installPath = '/Applications/MATLAB_R2023b.app/',
+                        matlabConnectionTiming = 'onStart',
+                        indexWorkspace = true,
+                        telemetry = false,
+                    },
+                },
+                single_file_support = true,
             })
 
             -- EXPERIMENTAL
