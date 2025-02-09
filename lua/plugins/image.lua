@@ -2,11 +2,13 @@ return {
     -- see the image.nvim readme for more information about configuring this plugin
     '3rd/image.nvim',
     enabled = true,
+    build = false,
     ft = { 'quarto', 'markdown' },
     rocks = {
         'magick',
     },
     opts = {
+        processor = 'magick_cli',
         backend = 'kitty', -- whatever backend you would like to use
         max_width = 100,
         max_height = 12,
