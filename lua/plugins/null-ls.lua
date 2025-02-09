@@ -7,15 +7,19 @@ return {
             'jayp0521/mason-null-ls.nvim',
             'nvimtools/none-ls-extras.nvim',
         },
-        config = true,
+        -- config = true,
     },
     {
         'jayp0521/mason-null-ls.nvim',
         dependencies = {
             'williamboman/mason.nvim',
+            'nvimtools/none-ls.nvim',
+            'nvimtools/none-ls-extras.nvim',
         },
+        lazy = false,
         config = function()
             local mason_null_ls = require('mason-null-ls')
+            local null_ls = require('null-ls')
             mason_null_ls.setup({
                 ensure_installed = {
                     'stylua',
