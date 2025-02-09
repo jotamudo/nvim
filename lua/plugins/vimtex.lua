@@ -4,9 +4,19 @@ return {
     config = function()
         vim.cmd([[
   autocmd FileType tex let g:indentLine_enabled = 0
-  let g:tex_flavor = 'latex'
-  let g:vimtex_compiler_progname = 'nvr'
-  let g:vimtex_compiler_latexmk = { 'executable' : 'latexmk', 'options' : [ '-file-line-error', '-synctex=1', '-interaction=nonstopmode', '--shell-escape' ], }
+  let g:vimtex_compiler_latexmk = { 
+    \ 'out_dir': 'out', 
+    \ 'aux_dir': 'out', 
+    \ 'executable' : 'latexmk', 
+    \ 'options' : [ 
+    \ '-file-line-error', 
+    \ '-synctex=1', 
+    \ '-interaction=nonstopmode', 
+    \ '--shell-escape' 
+    \ ], 
+    \ }
+  let g:vimtex_view_general_viewer = 'skim'
+  let g:vimtex_view_method = 'skim'
 ]])
     end,
 }
