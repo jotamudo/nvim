@@ -49,7 +49,7 @@ local o_options = {
     smarttab = true,
     shiftwidth = 2,
     tabstop = 2,
-    clipboard = 'unnamedplus',
+    -- clipboard = 'unnamedplus',
     -- formatprg = "par\\ -rjw79",
     listchars = 'tab:→\\ ,space:·,nbsp:␣,trail:•,eol:↵,precedes:«,extends:»',
     hidden = true,
@@ -60,9 +60,15 @@ local o_options = {
 }
 
 for name, value in pairs(o_options) do
-    vim.o[name] = value
+    -- vim.o[name] = value
     vim.opt[name] = value
 end
+-- keymaps for getting in and out of the system clipboard
+vim.keymap.set('n','<leader>y' , '"+y')
+vim.keymap.set('v','<leader>y' , '"+y')
+vim.keymap.set('n','<leader>yl','"+yy')
+vim.keymap.set('n','<leader>Y' ,' "+Y')
+vim.keymap.set('n', '<leader>p', '"+p')
 
 -- comands that didn't work with the above
 vim.cmd([[

@@ -64,9 +64,8 @@ return {
                     null_ls.builtins.completion.spell,
                     require('none-ls.formatting.ruff_format'), -- requires none-ls-extras.nvim
                     require('none-ls.diagnostics.ruff'), -- requires none-ls-extras.nvim
-                    null_ls.builtins.formatting.black,
                     require('none-ls.diagnostics.eslint'), -- requires none-ls-extras.nvim
-                    require('none-ls.diagnostics.cpplint'), -- requires none-ls-extras.nvim
+                    -- require('none-ls.diagnostics.cpplint'), -- requires none-ls-extras.nvim
                     require('none-ls.code_actions.eslint'), -- requires none-ls-extras.nvim
                 },
             })

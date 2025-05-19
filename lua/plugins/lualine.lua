@@ -12,9 +12,6 @@ return {
         -- Author: shadmansaleh
         -- Credit: glepnir
         local lualine = require('lualine')
-        vim.api.nvim_set_hl(0, 'StatusLine', { reverse = false })
-        vim.api.nvim_set_hl(0, 'StatusLineNC', { reverse = false })
-
     -- Color table for highlights
     -- stylua: ignore
     local colors = {
@@ -63,7 +60,7 @@ return {
                 --   normal = { c = { fg = colors.fg, bg = colors.bg } },
                 --   inactive = { c = { fg = colors.fg, bg = colors.bg } },
                 -- },
-                theme = 'gruvbox',
+                -- theme = 'gruvbox',
             },
             sections = {
                 -- these are to remove the defaults

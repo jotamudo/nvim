@@ -6,9 +6,8 @@ return {
         config = function()
             -- vim.api.nvim_set_hl(0, "StatusLine", {reverse = false})
             -- vim.api.nvim_set_hl(0, "StatusLineNC", {reverse = false})
-            require('gruvbox').setup({
-                invert = false,
-            })
+            local palette = require('gruvbox').palette
+            require('gruvbox').setup()
 
             -- vim.api.nvim_set_hl(0, "StatusLine", {reverse = false})
             -- vim.api.nvim_set_hl(0, "StatusLineNC", {reverse = false})

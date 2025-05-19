@@ -16,7 +16,8 @@ return {
                         command = { 'zsh' },
                     },
                     python = {
-                        command = { 'python3' }, -- or { "ipython", "--no-autoindent" }
+                        -- command = { 'python3' }, -- or { "ipython", "--no-autoindent" }
+                        command = { "ipython", "--no-autoindent" },
                         format = common.bracketed_paste_python,
                         block_deviders = { '# %%', '#%%' },
                     },
@@ -59,7 +60,7 @@ return {
                 visual_send = '<space>iss',
                 send_file = '<space>isf',
                 send_line = '<space>isl',
-                send_paragraph = '<space>ssp',
+                send_paragraph = '<space>isp',
                 send_until_cursor = '<space>isu',
                 send_mark = '<space>ism',
                 send_code_block = '<space>isb',
