@@ -1,4 +1,4 @@
 return {
-    'norcalli/nvim-colorizer.lua',
+    'jotamudo/nvim-colorizer.lua',
     config = true,
 }

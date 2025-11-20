@@ -57,6 +57,7 @@ local o_options = {
     exrc = true, -- allow local config files
     -- lazyredraw = true, -- don't update screen when doing macros
     conceallevel = 2, -- needed for obsidian
+    signcolumn = "yes",
 }
 
 for name, value in pairs(o_options) do

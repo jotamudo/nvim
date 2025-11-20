@@ -1,5 +1,11 @@
 -- Mappings.
 -- See `:help vim.lsp.*` for documentation on any of the below functions
+local count_table_entries = function (T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+
 return {
     {
         '<leader>o',
@@ -10,13 +16,17 @@ return {
     {
         '[e',
         function()
-            vim.diagnostic.jump({ diagnostic = vim.diagnostic.get_prev() })
+            if count_table_entries(vim.diagnostic.count(0)) > 0 then
+                vim.diagnostic.jump({ diagnostic = vim.diagnostic.get_prev() })
+            end
         end,
     },
     {
         ']e',
         function()
-            vim.diagnostic.jump({ diagnostic = vim.diagnostic.get_next() })
+            if count_table_entries(vim.diagnostic.count(0)) > 0 then
+                vim.diagnostic.jump({ diagnostic = vim.diagnostic.get_next() })
+            end
         end,
     },
     {
@@ -101,6 +111,13 @@ return {
         '<leader>gf',
         function()
             vim.lsp.buf.format()
+        end,
+    },
+    {
+        '<leader>gv',
+        function()
+            vim.g.inlay_hints_visible = not vim.g.inlay_hints_visible
+            vim.lsp.inlay_hint.enable(vim.g.inlay_hints_visible)
         end,
     },
     {

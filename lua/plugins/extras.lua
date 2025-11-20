@@ -2,7 +2,16 @@ return {
     { 'szw/vim-maximizer' },
     { 'tpope/vim-repeat' },
     { 'tpope/vim-surround' },
-    { 'andymass/vim-matchup' },
+    -- hangs on sshfs for some misterious reason?
+    -- {
+    --     'andymass/vim-matchup',
+    --     lazy = false,
+    --     opts = {
+    --         treesitter = {
+    --             stopline = 500,
+    --         },
+    --     },
+    -- },
     { 'itchyny/calendar.vim' },
     {
         'samoshkin/vim-mergetool',

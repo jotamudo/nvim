@@ -1,9 +1,3 @@
--- local capabilities = vim.tbl_deep_extend( 'force',
---     {},
---     vim.lsp.protocol.make_client_capabilities(),
---     require('cmp_nvim_lsp').default_capabilities() or {}
--- )
-
 local get_capabilities = function()
     return vim.tbl_deep_extend(
         'force',
@@ -13,19 +7,11 @@ local get_capabilities = function()
     )
 end
 
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local custom_attach = function(client, bufnr)
-    -- inlay hints for clangd
-
-    -- if client.server_capabilities.inlayHintProvider then
-    --   vim.lsp.inlay_hints(0, true)
-    -- end
     if client.server_capabilities.inlayHintProvider then
         vim.g.inlay_hints_visible = true
         vim.lsp.inlay_hint.enable()
-    else
-        -- print("no inlay hints available")
     end
 
     vim.lsp.codelens.display(vim.lsp.codelens.get(bufnr), bufnr, client.id)
@@ -51,10 +37,6 @@ local custom_attach = function(client, bufnr)
         client.server_capabilities.semanticTokensProvider = nil
     end
 
-    -- if client.name == "pyright" then
-    --   client.server_capabilities.completionProvider = false
-    -- end
-
     if client.name == 'typescript-tools' and vim.bo.filetype == 'vue' then
         client.server_capabilities.semanticTokensProvider = nil
     end
@@ -64,7 +46,9 @@ return {
     {
         'williamboman/mason-lspconfig.nvim',
         event = 'BufReadPre',
-        config = true,
+        opts = {
+            automatic_enable = false,
+        },
     },
     {
         url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
@@ -132,6 +116,7 @@ return {
                 'williamboman/mason.nvim',
                 lazy = false,
                 opts = {
+                    PATH = 'prepend',
                     registries = {
                         'github:mason-org/mason-registry',
                     },
@@ -287,7 +272,6 @@ return {
                 },
             },
             'mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
             'jubnzv/virtual-types.nvim',
             'hrsh7th/cmp-nvim-lsp',
         },
@@ -433,9 +417,36 @@ return {
 
             -- show diagnostic on cursor on floating window
             vim.o.updatetime = 250
-            vim.cmd(
-                [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false, scope="cursor"})]]
+            --
+            -- Show diagnostics under the cursor when holding position
+            vim.api.nvim_create_augroup(
+                'lsp_diagnostics_hold',
+                { clear = true }
             )
+            vim.api.nvim_create_autocmd({ 'CursorHold' }, {
+                pattern = '*',
+                callback = function()
+                    for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+                        if vim.api.nvim_win_get_config(winid).zindex then
+                            return
+                        end
+                    end
+                    -- THIS IS FOR BUILTIN LSP
+                    vim.diagnostic.open_float({
+                        scope = 'cursor',
+                        focusable = false,
+                        close_events = {
+                            'CursorMoved',
+                            'CursorMovedI',
+                            'BufHidden',
+                            'InsertCharPre',
+                            'WinLeave',
+                        },
+                    })
+                end,
+                group = 'lsp_diagnostics_hold',
+            })
+
             capabilities.textDocument.completion.completionItem.snippetSupport =
                 true
             capabilities.textDocument.completion.completionItem.resolveSupport =
@@ -483,6 +494,16 @@ return {
                     '-j=8',
                     '--background-index',
                     '--pch-storage=memory',
+                    -- clang-tidy integration
+                    '--clang-tidy',
+                    '--clang-tidy-checks=*',
+                    -- ??
+                    '--all-scopes-completion',
+                    '--cross-file-rename',
+                    '--completion-style=detailed',
+                    '--header-insertion-decorators',
+                    -- include what you use
+                    '--header-insertion=iwyu',
                 },
                 -- options to pass to nvim-lspconfig
                 -- i.e. the arguments to require("lspconfig").clangd.setup({})
@@ -503,7 +524,12 @@ return {
                         cmd = { 'neocmakelsp', '--stdio' },
                         filetypes = { 'cmake' },
                         root_dir = function(fname)
-                            return lspconfig.util.find_git_ancestor(fname)
+                            return vim.fs.dirname(
+                                vim.fs.find(
+                                    '.git',
+                                    { path = '.', upward = true }
+                                )[1]
+                            )
                         end,
                         single_file_support = true, -- suggested
                         on_attach = custom_attach, -- on_attach is the on_attach function you defined
@@ -569,11 +595,15 @@ return {
                                 functionReturnTypes = true,
                                 callArgumentNames = true,
                             },
-                            extraPaths = { 'venv', '.venv' }
+                            extraPaths = { 'venv', '.venv' },
                         },
                     },
                 },
             })
+            -- vim.lsp.config('ty', {
+            --     on_attach = custom_attach,
+            -- })
+            -- vim.lsp.enable('ty')
 
             lspconfig.texlab.setup({
                 on_attach = custom_attach,
@@ -613,10 +643,6 @@ return {
                     },
                 },
             })
-
-            -- C#
-            local pid = vim.fn.getpid()
-            local omnisharp_bin = '/usr/bin/omnisharp'
 
             lspconfig.omnisharp.setup({
                 -- cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
@@ -667,25 +693,6 @@ return {
                     },
                 }
 
-            -- if not configs.hdl_checker then
-            --   configs.hdl_checker = {
-            --     default_config = {
-            --       -- autostart = false, -- disabled auto start since I am giving rust_hdl a shot
-            --       cmd = {"hdl_checker", "--lsp"};
-            --       filetypes = { "vhdl", "verilog", "systemverilog" };
-            --       root_dir = function(fname)
-            --         return lspconfig.util.find_git_ancestor(fname) or lspconfig.util.path.dirname(fname)
-            --         -- return util.root_pattern('.hdl_checker.config')(fname) or util.path.dirname(fname)
-            --       end;
-            --       settings = {};
-            --     };
-            --   }
-            -- end
-
-            -- lspconfig.hdl_checker.setup{
-            --   on_attach = custom_attach
-            -- }
-
             lspconfig.vhdl_ls.setup({
                 capabilities = capabilities,
                 on_attach = custom_attach,
@@ -699,20 +706,6 @@ return {
                     },
                 },
             })
-
-            -- lspconfig.vuels.setup({
-            --   on_attach = custom_attach,
-            --   completion = {
-            --     autoImport = false,
-            --   },
-            --   format = {
-            --     defaultFormatter = {
-            --         js = 'eslint',
-            --         -- ts = 'none',
-            --       },
-            --   }
-            -- })
-            --
 
             local function read_json_file(filename)
                 local Path = require('plenary.path')
@@ -894,21 +887,10 @@ return {
                 single_file_support = true,
             })
 
-            -- EXPERIMENTAL
-
-            -- lacks inlay hints feature
-            -- lspconfig.ccls.setup {
-            --   on_attach = custom_attach,
-            --   capabilities = {
-            --     textDocument = {
-            --       completion = {
-            --         completionItem = {
-            --           snippetSupport = true
-            --         }
-            --       }
-            --     }
-            --   },
-            -- }
+            lspconfig.fish_lsp.setup({
+                on_attach = custom_attach,
+                capabilities = capabilities,
+            })
         end,
     },
 }

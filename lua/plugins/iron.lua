@@ -21,6 +21,18 @@ return {
                         format = common.bracketed_paste_python,
                         block_deviders = { '# %%', '#%%' },
                     },
+                    ipython = {
+                        -- command = { 'python3' }, -- or { "ipython", "--no-autoindent" }
+                        command = { "ipython", "--no-autoindent" },
+                        format = common.bracketed_paste_python,
+                        block_deviders = { '# %%', '#%%' },
+                    },
+                    markdown = {
+                        -- command = { 'python3' }, -- or { "ipython", "--no-autoindent" }
+                        command = { "ipython", "--no-autoindent" },
+                        format = common.bracketed_paste_python,
+                        block_deviders = { '# %%', '#%%' },
+                    },
                 },
                 -- set the file type of the newly created repl to ft
                 -- bufnr is the buffer id of the REPL and ft is the filetype of the
