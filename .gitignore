@@ -4,5 +4,4 @@ UltiSnips
 undodir
 doc
 packer_compiled*
-plugin/
 nvim.log
