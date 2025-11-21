@@ -321,7 +321,6 @@ return {
                 original(_, result, ctx, config)
             end
 
-            local lspconfig = require('lspconfig')
             local configs = require('lspconfig.configs')
             local util = require('lspconfig.util')
             local env_vars = vim.fn.environ()
@@ -485,7 +484,7 @@ return {
                     },
                 },
             }
-            lspconfig.clangd.setup({
+            vim.lsp.config('clangd', {
                 cmd = {
                     'clangd',
                     '--background-index',
@@ -517,6 +516,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            -- vim.lsp.enable('clangd')
 
             if not configs.neocmake then
                 configs.neocmake = {
@@ -535,17 +535,18 @@ return {
                         on_attach = custom_attach, -- on_attach is the on_attach function you defined
                     },
                 }
-                lspconfig.neocmake.setup({})
+                vim.lsp.config('neocmake', {})
             end
 
-            lspconfig.bashls.setup({
+            vim.lsp.config('bashls', {
                 on_attach = custom_attach,
                 flags = {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('bashls')
 
-            -- lspconfig.pyright.setup {
+            -- vim.lsp.config('pyright', {
             --   on_attach = custom_attach,
             --   flags = {
             --     debounce_text_changes = 150
@@ -557,35 +558,36 @@ return {
             --       }
             --     }
             --   }
-            -- }
+            -- })
 
-            if not configs.pylance then
-                local root_files = {
-                    'pyproject.toml',
-                    'setup.py',
-                    'setup.cfg',
-                    'requirements.txt',
-                    'Pipfile',
-                    'pyrightconfig.json',
-                    '.git',
-                }
+            -- if not configs.pylance then
+            --     local root_files = {
+            --         'pyproject.toml',
+            --         'setup.py',
+            --         'setup.cfg',
+            --         'requirements.txt',
+            --         'Pipfile',
+            --         'pyrightconfig.json',
+            --         '.git',
+            --     }
+            --
+            --     configs.pylance = {
+            --         default_config = {
+            --             cmd = { 'delance-langserver', '--stdio' },
+            --             filetypes = { 'python' },
+            --             root_dir = function(fname)
+            --                 return lspconfig.util.root_pattern(
+            --                     unpack(root_files)
+            --                 )(fname)
+            --             end,
+            --             single_file_support = true, -- suggested
+            --             on_attach = custom_attach, -- on_attach is the on_attach function you defined
+            --         },
+            --     }
+            -- end
 
-                configs.pylance = {
-                    default_config = {
-                        cmd = { 'delance-langserver', '--stdio' },
-                        filetypes = { 'python' },
-                        root_dir = function(fname)
-                            return lspconfig.util.root_pattern(
-                                unpack(root_files)
-                            )(fname)
-                        end,
-                        single_file_support = true, -- suggested
-                        on_attach = custom_attach, -- on_attach is the on_attach function you defined
-                    },
-                }
-            end
-
-            lspconfig.pylance.setup({
+            vim.lsp.config('pylance', {
+                on_attach = custom_attach,
                 settings = {
                     python = {
                         pythonPath = '/usr/bin/python3',
@@ -605,7 +607,7 @@ return {
             -- })
             -- vim.lsp.enable('ty')
 
-            lspconfig.texlab.setup({
+            vim.lsp.config('texlab', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
                 flags = {
@@ -613,7 +615,7 @@ return {
                 },
             })
 
-            lspconfig.jsonls.setup({
+            vim.lsp.config('jsonls', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
                 flags = {
@@ -621,7 +623,7 @@ return {
                 },
             })
 
-            lspconfig.vimls.setup({
+            vim.lsp.config('vimls', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
                 flags = {
@@ -629,7 +631,7 @@ return {
                 },
             })
 
-            lspconfig.lua_ls.setup({
+            vim.lsp.config('lua_ls', {
                 settings = {
                     Lua = {
                         workspace = {
@@ -644,7 +646,7 @@ return {
                 },
             })
 
-            lspconfig.omnisharp.setup({
+            vim.lsp.config('omnisharp', {
                 -- cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
                 -- flags = {
                 --   debounce_text_changes = 150
@@ -654,13 +656,13 @@ return {
             local sourcekit_caps = vim.deepcopy(capabilities, true)
             sourcekit_caps.workspace.didChangeWatchedFiles.dynamicRegistration =
                 true
-            lspconfig.sourcekit.setup({
+            vim.lsp.config('sourcekit', {
                 filetypes = { 'swift', 'objc', 'objcpp' },
                 on_attach = custom_attach,
                 capabilities = sourcekit_caps,
             })
             -- Web
-            lspconfig.html.setup({
+            vim.lsp.config('html', {
                 on_attach = custom_attach,
                 filetypes = { 'html', 'htmldjango' },
                 capabilities = capabilities,
@@ -669,7 +671,7 @@ return {
                 },
             })
 
-            lspconfig.cssls.setup({
+            vim.lsp.config('cssls', {
                 on_attach = custom_attach,
                 flags = {
                     debounce_text_changes = 150,
@@ -693,12 +695,12 @@ return {
                     },
                 }
 
-            lspconfig.vhdl_ls.setup({
+            vim.lsp.config('vhdl_ls', {
                 capabilities = capabilities,
                 on_attach = custom_attach,
             })
 
-            lspconfig.lemminx.setup({
+            vim.lsp.config('lemminx', {
                 on_attach = custom_attach,
                 settings = {
                     xml = {
@@ -781,7 +783,7 @@ return {
                     { 'vue', 'typescript', 'javascript', 'typescriptreact' }
             end
 
-            lspconfig.volar.setup({
+            vim.lsp.config('volar', {
                 on_attach = custom_attach,
                 -- filetypes = vue_filetypes,
                 capabilities = capabilities,
@@ -841,7 +843,7 @@ return {
                 })
             end
 
-            lspconfig.svlangserver.setup({
+            vim.lsp.config('svlangserver', {
                 on_attach = custom_attach,
                 filetypes = { 'verilog', 'systemverilog' },
                 settings = {
@@ -860,17 +862,17 @@ return {
                 },
             })
 
-            lspconfig.jdtls.setup({})
-            lspconfig.groovyls.setup({
+            vim.lsp.config('jdtls', {})
+            vim.lsp.config('groovyls', {
                 cmd = { 'groovy-language-server' },
             })
 
-            lspconfig.kotlin_language_server.setup({
+            vim.lsp.config('kotlin_language_server', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
             })
 
-            lspconfig.matlab_ls.setup({
+            vim.lsp.config('matlab_ls', {
                 on_attach = custom_attach,
                 filetypes = { 'matlab' },
                 capabilities = capabilities,
@@ -887,7 +889,7 @@ return {
                 single_file_support = true,
             })
 
-            lspconfig.fish_lsp.setup({
+            vim.lsp.config('fish_lsp', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
             })
