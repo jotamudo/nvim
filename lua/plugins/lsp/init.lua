@@ -872,24 +872,6 @@ return {
             })
             vim.lsp.enable('kotlin_language_server')
 
-            vim.lsp.config('matlab_ls', {
-                on_attach = custom_attach,
-                filetypes = { 'matlab' },
-                capabilities = capabilities,
-                settings = {
-                    -- don't know why it has to be in upper-case '-'
-                    MATLAB = {
-                        capabilities = capabilities,
-                        installPath = '/Applications/MATLAB_R2023b.app/',
-                        matlabConnectionTiming = 'onStart',
-                        indexWorkspace = true,
-                        telemetry = false,
-                    },
-                },
-                single_file_support = true,
-            })
-            vim.lsp.enable('matlab')
-
             vim.lsp.config('fish_lsp', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
