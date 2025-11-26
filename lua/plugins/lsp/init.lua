@@ -516,7 +516,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
-            -- vim.lsp.enable('clangd')
+            vim.lsp.enable('clangd')
 
             if not configs.neocmake then
                 configs.neocmake = {
@@ -537,6 +537,7 @@ return {
                 }
                 vim.lsp.config('neocmake', {})
             end
+            vim.lsp.enable('neocmake')
 
             vim.lsp.config('bashls', {
                 on_attach = custom_attach,
@@ -602,6 +603,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('pylance')
             -- vim.lsp.config('ty', {
             --     on_attach = custom_attach,
             -- })
@@ -614,6 +616,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('texlab')
 
             vim.lsp.config('jsonls', {
                 on_attach = custom_attach,
@@ -622,6 +625,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('jsonls')
 
             vim.lsp.config('vimls', {
                 on_attach = custom_attach,
@@ -630,6 +634,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('vimls')
 
             vim.lsp.config('lua_ls', {
                 settings = {
@@ -645,22 +650,8 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('lua_ls')
 
-            vim.lsp.config('omnisharp', {
-                -- cmd = {omnisharp_bin, "--languageserver", "--hostPID", tostring(pid)},
-                -- flags = {
-                --   debounce_text_changes = 150
-                -- }
-            })
-
-            local sourcekit_caps = vim.deepcopy(capabilities, true)
-            sourcekit_caps.workspace.didChangeWatchedFiles.dynamicRegistration =
-                true
-            vim.lsp.config('sourcekit', {
-                filetypes = { 'swift', 'objc', 'objcpp' },
-                on_attach = custom_attach,
-                capabilities = sourcekit_caps,
-            })
             -- Web
             vim.lsp.config('html', {
                 on_attach = custom_attach,
@@ -670,6 +661,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('html')
 
             vim.lsp.config('cssls', {
                 on_attach = custom_attach,
@@ -677,6 +669,7 @@ return {
                     debounce_text_changes = 150,
                 },
             })
+            vim.lsp.enable('cssls')
 
             local extension_path = env_vars.HOME
                 .. '.vscode-oss/extensions/vadimcn.vscode-lldb-1.6.10/'
@@ -699,6 +692,7 @@ return {
                 capabilities = capabilities,
                 on_attach = custom_attach,
             })
+            vim.lsp.enable('vhdl_ls')
 
             vim.lsp.config('lemminx', {
                 on_attach = custom_attach,
@@ -708,6 +702,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('lemminx')
 
             local function read_json_file(filename)
                 local Path = require('plenary.path')
@@ -806,6 +801,7 @@ return {
                     },
                 },
             })
+            -- vim.lsp.enable('volar')
 
             if not have_vue then
                 require('typescript-tools').setup({
@@ -861,16 +857,20 @@ return {
                     },
                 },
             })
+            vim.lsp.enable('svlangserver')
 
             vim.lsp.config('jdtls', {})
+            vim.lsp.enable('jdtls')
             vim.lsp.config('groovyls', {
                 cmd = { 'groovy-language-server' },
             })
+            vim.lsp.enable('groovyls')
 
             vim.lsp.config('kotlin_language_server', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
             })
+            vim.lsp.enable('kotlin_language_server')
 
             vim.lsp.config('matlab_ls', {
                 on_attach = custom_attach,
@@ -888,11 +888,13 @@ return {
                 },
                 single_file_support = true,
             })
+            vim.lsp.enable('matlab')
 
             vim.lsp.config('fish_lsp', {
                 on_attach = custom_attach,
                 capabilities = capabilities,
             })
+            vim.lsp.enable('fish_lsp')
         end,
     },
 }
