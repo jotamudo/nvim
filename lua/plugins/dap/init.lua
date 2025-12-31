@@ -1,19 +1,7 @@
 return {
     {
         'mfussenegger/nvim-dap',
-        lazy = false,
-        init = function()
-            vim.api.nvim_create_autocmd('BufWritePost', {
-                group = vim.api.nvim_create_augroup(
-                    'my-dap-launch.json',
-                    { clear = true }
-                ),
-                pattern = { '*/launch.json', '.*/launch.json' },
-                callback = function(args)
-                    require('dap.ext.vscode').load_launchjs(args.file)
-                end,
-            })
-        end,
+        event = 'VeryLazy',
         dependencies = {
             {
                 'rcarriga/nvim-dap-ui',
