@@ -189,39 +189,7 @@ return {
                     'neovim/nvim-lspconfig',
                 },
             },
-            { 'nvim-java/nvim-java' },
-            -- {
-            -- 	-- NOTE: modified version of nvim-java, I need to sleep
-            -- 	"jotamudo/nvim-java",
-            -- 	dev = true,
-            -- 	ft = "java",
-            -- 	config = function()
-            -- 		require("java").setup()
-            -- 	end,
-            -- 	dependencies = {
-            -- 		"nvim-java/lua-async-await",
-            -- 		"nvim-java/nvim-java-refactor",
-            -- 		"nvim-java/nvim-java-core",
-            -- 		"nvim-java/nvim-java-test",
-            -- 		"nvim-java/nvim-java-dap",
-            -- 		"MunifTanjim/nui.nvim",
-            -- 		"neovim/nvim-lspconfig",
-            -- 		"mfussenegger/nvim-dap",
-            -- 		{
-            -- 			"JavaHello/spring-boot.nvim",
-            -- 			commit = "218c0c26c14d99feca778e4d13f5ec3e8b1b60f0",
-            -- 		},
-            -- 		{
-            -- 			"williamboman/mason.nvim",
-            -- 			opts = {
-            -- 				registries = {
-            -- 					"github:nvim-java/mason-registry",
-            -- 					"github:mason-org/mason-registry",
-            -- 				},
-            -- 			},
-            -- 		},
-            -- 	},
-            -- },
+            { 'nvim-java/nvim-java', ft = {'java'} },
             {
                 'nvim-flutter/flutter-tools.nvim',
                 -- lazy = false,
@@ -589,9 +557,19 @@ return {
 
             vim.lsp.config('pylance', {
                 on_attach = custom_attach,
+                filetypes = {'python'},
+                root_markers = {
+                  'pyrightconfig.json',
+                  'pyproject.toml',
+                  'setup.py',
+                  'setup.cfg',
+                  'requirements.txt',
+                  'Pipfile',
+                  '.git',
+                },
+                cmd = { 'delance-langserver', '--stdio'},
                 settings = {
                     python = {
-                        pythonPath = '/usr/bin/python3',
                         analysis = {
                             inlayHints = {
                                 variableTypes = true,
