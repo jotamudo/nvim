@@ -1,7 +1,7 @@
 return {
     -- see the image.nvim readme for more information about configuring this plugin
     '3rd/image.nvim',
-    enabled = true,
+    enabled = false,
     build = false,
     ft = { 'quarto', 'markdown' },
     rocks = {
