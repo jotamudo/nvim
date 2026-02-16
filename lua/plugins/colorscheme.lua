@@ -1,6 +1,7 @@
 local select_colorscheme = function()
     vim.o.termguicolors = true
     vim.cmd.colorscheme('gruvbox')
+    vim.o.background = 'light'
     -- Disables background colors
     -- vim.cmd('hi! Normal ctermbg=None guibg=None')
 end
