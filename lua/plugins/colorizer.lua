@@ -1,4 +1,4 @@
 return {
-    'jotamudo/nvim-colorizer.lua',
+    'catgoose/nvim-colorizer.lua',
     config = true,
 }
