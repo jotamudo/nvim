@@ -7,7 +7,6 @@ local get_capabilities = function()
     )
 end
 
-
 local custom_attach = function(client, bufnr)
     if client.server_capabilities.inlayHintProvider then
         vim.g.inlay_hints_visible = true
@@ -123,6 +122,27 @@ return {
                 },
             },
             {
+                'WhoIsSethDaniel/mason-tool-installer.nvim',
+                lazy = false,
+                dependencies = 'williamboman/mason.nvim',
+                opts = {
+                    ensure_installed = {
+                        'codelldb',
+                        'python',
+                        'kotlin',
+                        'dart',
+                        'stylua',
+                        'clang_format',
+                        'yamlfix',
+                        'yamlfmt',
+                        'eslint',
+                        'ruff',
+                        'lua-language-server',
+                        'clangd',
+                    },
+                },
+            },
+            {
                 'mrcjkb/rustaceanvim',
                 dependencies = 'saghen/blink.cmp',
                 -- version = '^5', -- Recommended
@@ -189,7 +209,7 @@ return {
                     'neovim/nvim-lspconfig',
                 },
             },
-            { 'nvim-java/nvim-java', ft = {'java'} },
+            { 'nvim-java/nvim-java', ft = { 'java' } },
             {
                 'nvim-flutter/flutter-tools.nvim',
                 -- lazy = false,
@@ -557,17 +577,17 @@ return {
 
             vim.lsp.config('pylance', {
                 on_attach = custom_attach,
-                filetypes = {'python'},
+                filetypes = { 'python' },
                 root_markers = {
-                  'pyrightconfig.json',
-                  'pyproject.toml',
-                  'setup.py',
-                  'setup.cfg',
-                  'requirements.txt',
-                  'Pipfile',
-                  '.git',
+                    'pyrightconfig.json',
+                    'pyproject.toml',
+                    'setup.py',
+                    'setup.cfg',
+                    'requirements.txt',
+                    'Pipfile',
+                    '.git',
                 },
-                cmd = { 'delance-langserver', '--stdio'},
+                cmd = { 'delance-langserver', '--stdio' },
                 settings = {
                     python = {
                         analysis = {
