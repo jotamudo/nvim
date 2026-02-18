@@ -139,6 +139,7 @@ return {
                         'ruff',
                         'lua-language-server',
                         'clangd',
+                        'ty',
                     },
                 },
             },
@@ -601,11 +602,11 @@ return {
                     },
                 },
             })
-            vim.lsp.enable('pylance')
-            -- vim.lsp.config('ty', {
-            --     on_attach = custom_attach,
-            -- })
-            -- vim.lsp.enable('ty')
+            -- vim.lsp.enable('pylance')
+            vim.lsp.config('ty', {
+                on_attach = custom_attach,
+            })
+            vim.lsp.enable('ty')
 
             vim.lsp.config('texlab', {
                 on_attach = custom_attach,
