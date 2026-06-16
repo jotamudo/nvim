@@ -138,8 +138,9 @@ return {
                         'eslint',
                         'ruff',
                         'lua-language-server',
-                        'clangd',
                         'ty',
+                        'texlab',
+                        'postgres-language-server',
                     },
                 },
             },
@@ -199,7 +200,7 @@ return {
                     }
                 end,
 
-                branch = 'master',
+                branch = 'main',
                 lazy = false, -- This plugin is already lazy
             },
             { 'SmiteshP/nvim-navic' },
@@ -703,6 +704,13 @@ return {
             })
             vim.lsp.enable('lemminx')
 
+            vim.lsp.config('postgres_lsp', {
+                capabilities = capabilities,
+                on_attach = custom_attach,
+            })
+            vim.lsp.enable('postgres_lsp')
+
+
             local function read_json_file(filename)
                 local Path = require('plenary.path')
 
@@ -876,6 +884,17 @@ return {
                 capabilities = capabilities,
             })
             vim.lsp.enable('fish_lsp')
+
+            vim.lsp.config('ltex_plus', {
+                on_attach = custom_attach,
+                capabilities = capabilities,
+                settings = {
+                    ltex = {
+                        language = "en-US"
+                    }
+                }
+            })
+            vim.lsp.enable('ltex_plus')
         end,
     },
 }
