@@ -141,6 +141,7 @@ return {
                         'ty',
                         'texlab',
                         'postgres-language-server',
+                        'rust-analyzer',
                     },
                 },
             },
