@@ -40,6 +40,5 @@ return {
         -- telescope.load_extension('fzf')
         -- {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
         telescope.load_extension('media_files')
-        telescope.load_extension('refactoring')
     end,
 }
