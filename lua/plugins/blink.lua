@@ -17,32 +17,18 @@ return {
         -- optional: provides snippets for the snippet source
         dependencies = {
             'saghen/blink.compat',
-            'hrsh7th/cmp-nvim-lsp',
-            'hrsh7th/cmp-path',
-            'hrsh7th/cmp-cmdline',
-            'hrsh7th/cmp-emoji',
-            'hrsh7th/cmp-nvim-lua',
-            'hrsh7th/cmp-calc',
+            'saghen/blink.lib', 
             'f3fora/cmp-spell',
             'rcarriga/cmp-dap',
-            'dmitmel/cmp-digraphs',
-            'uga-rosa/cmp-dictionary',
-            'hrsh7th/cmp-nvim-lsp-document-symbol',
-            'quangnguyen30192/cmp-nvim-tags',
-            -- 'delphinus/cmp-ctags',
-            'ray-x/cmp-treesitter',
-            'hrsh7th/cmp-nvim-lsp-signature-help',
-            'onsails/lspkind-nvim',
-            'saadparwaiz1/cmp_luasnip',
             'L3M0N4D3/LuaSnip',
             'jmbuhr/otter.nvim',
             'rafamadriz/friendly-snippets',
         },
 
         -- use a release tag to download pre-built binaries
-        version = 'v1.*',
+        version = 'v2',
         -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        -- build = 'cargo build --release',
+        build = 'cargo build --release',
         -- On musl libc based systems you need to add this flag
         -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
 
@@ -89,18 +75,7 @@ return {
                 },
             },
             snippets = {
-                expand = function(snippet)
-                    require('luasnip').lsp_expand(snippet)
-                end,
-                active = function(filter)
-                    if filter and filter.direction then
-                        return require('luasnip').jumpable(filter.direction)
-                    end
-                    return require('luasnip').in_snippet()
-                end,
-                jump = function(direction)
-                    require('luasnip').jump(direction)
-                end,
+                preset = 'luasnip'
             },
 
             appearance = {
