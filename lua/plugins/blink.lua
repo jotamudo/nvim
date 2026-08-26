@@ -17,7 +17,7 @@ return {
         -- optional: provides snippets for the snippet source
         dependencies = {
             'saghen/blink.compat',
-            'saghen/blink.lib', 
+            'saghen/blink.lib',
             'f3fora/cmp-spell',
             'rcarriga/cmp-dap',
             'L3M0N4D3/LuaSnip',
@@ -28,7 +28,9 @@ return {
         -- use a release tag to download pre-built binaries
         version = 'v2',
         -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-        build = 'cargo build --release',
+        build = function()
+            require('blink.cmp').build():pwait()
+        end,
         -- On musl libc based systems you need to add this flag
         -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
 
@@ -49,7 +51,7 @@ return {
                     buffer = {
                         name = 'buffer',
                         module = 'blink.cmp.sources.buffer',
-                        enabled = function ()
+                        enabled = function()
                             if vim.b.filetype ~= 'tex' then
                                 return true
                             end
@@ -75,7 +77,7 @@ return {
                 },
             },
             snippets = {
-                preset = 'luasnip'
+                preset = 'luasnip',
             },
 
             appearance = {
@@ -102,8 +104,8 @@ return {
                     selection = {
                         preselect = false,
                         auto_insert = true,
-                    }
-                }
+                    },
+                },
             },
 
             -- experimental signature help support
@@ -117,6 +119,6 @@ return {
                 ['<C-k>'] = { 'snippet_backward', 'fallback' },
             },
         },
-         opts_extend = { "sources.default" },
+        opts_extend = { 'sources.default' },
     },
 }
