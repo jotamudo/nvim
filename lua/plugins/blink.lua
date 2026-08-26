@@ -26,7 +26,7 @@ return {
         },
 
         -- use a release tag to download pre-built binaries
-        version = 'v2',
+        version = '*',
         build = function()
             require('blink.cmp').build():pwait()
         end,
