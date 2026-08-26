@@ -27,7 +27,6 @@ return {
 
         -- use a release tag to download pre-built binaries
         version = 'v2',
-        -- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
         build = function()
             require('blink.cmp').build():pwait()
         end,
@@ -35,6 +34,7 @@ return {
         -- build = 'RUSTFLAGS="-C target-feature=-crt-static" cargo build --release',
 
         opts = {
+            fuzzy = { implementation = "rust" },
             sources = {
                 default = {
                     'lsp',
