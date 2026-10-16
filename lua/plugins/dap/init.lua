@@ -32,13 +32,6 @@ return {
                         -- Keep original functionality
                         require('mason-nvim-dap').default_setup(config)
                     end,
-                    -- dart = function (config)
-                    -- 	config.adapters = {
-                    -- 		type = "executable",
-                    -- 		command = vim.fn.stdpath("data") .. "/mason/bin/dart-debug-adapter",
-                    -- 		args = {"flutter"}
-                    -- 	}
-                    -- end
                 },
             })
         end,

@@ -213,55 +213,6 @@ return {
                 },
             },
             { 'nvim-java/nvim-java', ft = { 'java' } },
-            {
-                'nvim-flutter/flutter-tools.nvim',
-                -- lazy = false,
-                ft = { 'dart', 'yaml' },
-                dependencies = {
-                    'nvim-lua/plenary.nvim',
-                    'stevearc/dressing.nvim',
-                },
-                opts = {
-                    fvm = os.execute('fvm > /dev/null') ~= nil,
-                    debugger = {
-                        enabled = true,
-                        run_via_dap = true,
-                        register_configurations = function(_)
-                            require('dap').adapters.dart = {
-                                type = 'executable',
-                                command = vim.fn.stdpath('data')
-                                    .. '/mason/bin/dart-debug-adapter',
-                                args = { 'flutter' },
-                            }
-                            require('dap').configurations.dart = {
-                                {
-                                    type = 'dart',
-                                    request = 'launch',
-                                    name = 'Launch Flutter Program',
-                                    -- The nvim-dap plugin populates this variable with the filename of the current buffer
-                                    program = '${file}',
-                                    -- The nvim-dap plugin populates this variable with the editor's current working directory
-                                    cwd = '${workspaceFolder}',
-                                    -- This gets forwarded to the Flutter CLI tool, substitute `linux` for whatever device you wish to launch
-                                    toolArgs = { '-d', 'linux' },
-                                },
-                            }
-                        end,
-                    },
-                    lsp = {
-                        color = {
-                            enabled = true,
-                            background = true,
-                            background_color = { r = 19, g = 17, b = 24 },
-                            foreground = false,
-                            virtual_text = true,
-                            virtual_text_str = '■',
-                        },
-                        on_attach = custom_attach,
-                        capabilities = get_capabilities(),
-                    },
-                },
-            },
             'mason.nvim',
             'jubnzv/virtual-types.nvim',
             'hrsh7th/cmp-nvim-lsp',
