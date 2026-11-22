@@ -449,6 +449,11 @@ return {
                     '--header-insertion-decorators',
                     -- include what you use
                     '--header-insertion=iwyu',
+                    -- automatically query the compiler driver
+                    -- NOTE (jotamudo): THIS IS NOT SECURE AT ALL, but will solve
+                    -- the issues with the standard library not being found in
+                    -- some projects.
+                    '--query-driver=/**/*',
                 },
                 -- options to pass to nvim-lspconfig
                 -- i.e. the arguments to require("lspconfig").clangd.setup({})
