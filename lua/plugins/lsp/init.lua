@@ -39,6 +39,10 @@ local custom_attach = function(client, bufnr)
     if client.name == 'typescript-tools' and vim.bo.filetype == 'vue' then
         client.server_capabilities.semanticTokensProvider = nil
     end
+    
+    if client.name == 'texlab' then
+        vim.lsp.inlay_hint.enable(false)
+    end
 end
 
 return {
